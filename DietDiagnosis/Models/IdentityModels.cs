@@ -31,5 +31,11 @@ namespace DietDiagnosis.Models
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Nutrient> Nutrients { get; set; }
+        public DbSet<DietPlan> DietPlans { get; set; }
+
+        public DbSet<Recipe> Recipes { get; set; }
+
+        public DbSet<HealthProblem> HealthProblems { get; set; }
     }
 }

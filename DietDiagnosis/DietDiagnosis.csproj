@@ -196,11 +196,27 @@
     <Compile Include="Migrations\201902211919399_AddedAppUserModel.Designer.cs">
       <DependentUpon>201902211919399_AddedAppUserModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902211947246_AddedDietPlanNutrientModels.cs" />
+    <Compile Include="Migrations\201902211947246_AddedDietPlanNutrientModels.Designer.cs">
+      <DependentUpon>201902211947246_AddedDietPlanNutrientModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902212006505_AddedRecipeModelProp.cs" />
+    <Compile Include="Migrations\201902212006505_AddedRecipeModelProp.Designer.cs">
+      <DependentUpon>201902212006505_AddedRecipeModelProp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902212013203_AddedHealthProbModel.cs" />
+    <Compile Include="Migrations\201902212013203_AddedHealthProbModel.Designer.cs">
+      <DependentUpon>201902212013203_AddedHealthProbModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
+    <Compile Include="Models\DietPlan.cs" />
+    <Compile Include="Models\HealthProblem.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Nutrient.cs" />
+    <Compile Include="Models\Recipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -280,6 +296,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902211919399_AddedAppUserModel.resx">
       <DependentUpon>201902211919399_AddedAppUserModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902211947246_AddedDietPlanNutrientModels.resx">
+      <DependentUpon>201902211947246_AddedDietPlanNutrientModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902212006505_AddedRecipeModelProp.resx">
+      <DependentUpon>201902212006505_AddedRecipeModelProp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902212013203_AddedHealthProbModel.resx">
+      <DependentUpon>201902212013203_AddedHealthProbModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
