@@ -54,15 +54,15 @@ namespace DietDiagnosis
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "444398186100575",
+               appSecret: "df1485060846cd1122fdde469ae672aa");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "555485488765-45c9s9m2g5dqchmgcem4nldbvp1g42mo.apps.googleusercontent.com",
+                ClientSecret = "SpwyK4cW_sGX2kavgSI6ux0H"
+            });
         }
     }
 }
