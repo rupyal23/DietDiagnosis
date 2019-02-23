@@ -1,4 +1,5 @@
 ﻿using DietDiagnosis.Models;
+using DietDiagnosis.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -8,50 +9,70 @@ using System.Web.Mvc;
 
 namespace DietDiagnosis.Controllers
 {
-    public class AppUserController : Controller
+    public class DietPlanController : Controller
     {
         ApplicationDbContext db;
-
-        public AppUserController()
+        public DietPlanController()
         {
             db = new ApplicationDbContext();
         }
-        // GET: AppUser
+        // GET: DietPlan
         public ActionResult Index()
         {
-            var user = GetUser();
-            if(user.LastName == null)
+            var appUser = GetUser();
+            try
             {
-                Update(user);
+                var dietPlans = db.DietPlans.Where(d => d.AppUserId == appUser.Id).ToList();
+                if(dietPlans.Count != 0)
+                {
+                    var viewModel = new UserDietViewModel
+                    {
+                        AppUser = appUser,
+                        DietPlan = dietPlans
+
+                    };
+                    return View(viewModel);
+
+                }
+                else
+                {
+                    return RedirectToAction("Create");
+                }
+                
             }
-            return View();
+            catch
+            {
+                return View();
+            }
         }
 
-        // GET: AppUser/Details/5
+        private AppUser GetUser()
+        {
+            var userLoggedIn = User.Identity.GetUserId();
+            var user = db.AppUsers.Single(c => c.ApplicationUserId == userLoggedIn);
+            return user;
+        }
+
+        // GET: DietPlan/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: AppUser/Create
+        // GET: DietPlan/Create
         public ActionResult Create()
         {
-
             return View();
         }
 
-        // POST: AppUser/Create
+        // POST: DietPlan/Create
         [HttpPost]
-        public ActionResult Create(AppUser user)
+        public ActionResult Create(FormCollection collection)
         {
             try
             {
-                var userFromDb = db.AppUsers.SingleOrDefault(c => c.ApplicationUserId == user.ApplicationUserId);
-                userFromDb.FirstName = user.FirstName;
-                userFromDb.LastName = user.LastName;
-                userFromDb.Age = user.Age;
-                userFromDb.Sex = user.Sex;
-                db.SaveChanges();
+                // TODO: Add insert logic here
+
                 return RedirectToAction("Index");
             }
             catch
@@ -60,24 +81,13 @@ namespace DietDiagnosis.Controllers
             }
         }
 
-        public AppUser Update(AppUser user)
-        {   
-            var userFromDb = db.AppUsers.SingleOrDefault(c => c.ApplicationUserId == user.ApplicationUserId);
-            userFromDb.FirstName = user.FirstName;
-            userFromDb.LastName = user.LastName;
-            userFromDb.Age = user.Age;
-            userFromDb.Sex = user.Sex;
-            db.SaveChanges();
-            return user;
-        }
-
-        // GET: AppUser/Edit/5
+        // GET: DietPlan/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: AppUser/Edit/5
+        // POST: DietPlan/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -93,13 +103,13 @@ namespace DietDiagnosis.Controllers
             }
         }
 
-        // GET: AppUser/Delete/5
+        // GET: DietPlan/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: AppUser/Delete/5
+        // POST: DietPlan/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
@@ -113,12 +123,6 @@ namespace DietDiagnosis.Controllers
             {
                 return View();
             }
-        }
-        private AppUser GetUser()
-        {
-            var userLoggedIn = User.Identity.GetUserId();
-            var user = db.AppUsers.Single(c => c.ApplicationUserId == userLoggedIn);
-            return user;
         }
     }
 }
