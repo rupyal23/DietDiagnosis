@@ -354,6 +354,7 @@ namespace DietDiagnosis.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
+            ApplicationDbContext db = new ApplicationDbContext();
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Manage");
@@ -375,7 +376,14 @@ namespace DietDiagnosis.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var Currentuser = db.Users.Where(u => u.Email == info.Email).SingleOrDefault();
+                        AppUser newUser = new AppUser();
+                       // newUser.FirstName = info.ExternalIdentity.Name;
+                        newUser.ApplicationUserId = Currentuser.Id;
+                        db.AppUsers.Add(newUser);
+                        db.SaveChanges();
                         return RedirectToLocal(returnUrl);
+
                     }
                 }
                 AddErrors(result);
