@@ -14,17 +14,13 @@ namespace DietDiagnosis.Models
 
         public string Name { get; set; }
 
-        public List<string> Preferences { get; set; }
-
-        public List<string> Exclusions { get; set; }
-
         [ForeignKey("AppUser")]
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
 
-        [ForeignKey("Id")]
-        public List<Nutrient> Nutrients { get; set; }
+        //[ForeignKey("Id")]
+        //public List<Nutrient> Nutrients { get; set; }
 
-        public List<Nutrient> Nutrient { get; set; }
+        //public List<Nutrient> Nutrient { get; set; }
     }
 }

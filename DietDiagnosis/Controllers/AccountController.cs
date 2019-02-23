@@ -334,7 +334,7 @@ namespace DietDiagnosis.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index", "DietPlan");
+                    return RedirectToAction("Index", "AppUser");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

@@ -210,6 +210,34 @@
     <Compile Include="Migrations\201902212013203_AddedHealthProbModel.Designer.cs">
       <DependentUpon>201902212013203_AddedHealthProbModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902231921402_removedpropfromDietPlanAddedinAppUser.cs" />
+    <Compile Include="Migrations\201902231921402_removedpropfromDietPlanAddedinAppUser.Designer.cs">
+      <DependentUpon>201902231921402_removedpropfromDietPlanAddedinAppUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902232051136_PopulateNutrientTable.cs" />
+    <Compile Include="Migrations\201902232051136_PopulateNutrientTable.Designer.cs">
+      <DependentUpon>201902232051136_PopulateNutrientTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902232121263_removedNutrientfromDietPlan.cs" />
+    <Compile Include="Migrations\201902232121263_removedNutrientfromDietPlan.Designer.cs">
+      <DependentUpon>201902232121263_removedNutrientfromDietPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902232204104_removedNutrientFromRecipe.cs" />
+    <Compile Include="Migrations\201902232204104_removedNutrientFromRecipe.Designer.cs">
+      <DependentUpon>201902232204104_removedNutrientFromRecipe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902232204516_PopulateNutrientTable1.cs" />
+    <Compile Include="Migrations\201902232204516_PopulateNutrientTable1.Designer.cs">
+      <DependentUpon>201902232204516_PopulateNutrientTable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902232214584_PopulateNutrientTable2.cs" />
+    <Compile Include="Migrations\201902232214584_PopulateNutrientTable2.Designer.cs">
+      <DependentUpon>201902232214584_PopulateNutrientTable2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902232221474_PopulateNutrientTable3.cs" />
+    <Compile Include="Migrations\201902232221474_PopulateNutrientTable3.Designer.cs">
+      <DependentUpon>201902232221474_PopulateNutrientTable3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -282,10 +310,10 @@
     <Content Include="Views\AppUser\Create.cshtml" />
     <Content Include="Views\AppUser\Update.cshtml" />
     <Content Include="Views\AppUser\Index.cshtml" />
+    <Content Include="Views\DietPlan\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DietPlan\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -312,6 +340,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902212013203_AddedHealthProbModel.resx">
       <DependentUpon>201902212013203_AddedHealthProbModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902231921402_removedpropfromDietPlanAddedinAppUser.resx">
+      <DependentUpon>201902231921402_removedpropfromDietPlanAddedinAppUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902232051136_PopulateNutrientTable.resx">
+      <DependentUpon>201902232051136_PopulateNutrientTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902232121263_removedNutrientfromDietPlan.resx">
+      <DependentUpon>201902232121263_removedNutrientfromDietPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902232204104_removedNutrientFromRecipe.resx">
+      <DependentUpon>201902232204104_removedNutrientFromRecipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902232204516_PopulateNutrientTable1.resx">
+      <DependentUpon>201902232204516_PopulateNutrientTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902232214584_PopulateNutrientTable2.resx">
+      <DependentUpon>201902232214584_PopulateNutrientTable2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902232221474_PopulateNutrientTable3.resx">
+      <DependentUpon>201902232221474_PopulateNutrientTable3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

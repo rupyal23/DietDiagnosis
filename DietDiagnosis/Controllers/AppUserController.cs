@@ -22,9 +22,14 @@ namespace DietDiagnosis.Controllers
             var user = GetUser();
             if(user.LastName == null)
             {
-                Update(user);
+                return View("Create", user);
             }
-            return View();
+            var dietPlans = db.DietPlans.Where(d => d.AppUserId == user.Id).ToList();
+            if(dietPlans == null)
+            {
+                return RedirectToAction("Create", "DietPlan");
+            }
+            return View(dietPlans);
         }
 
         // GET: AppUser/Details/5
@@ -46,7 +51,7 @@ namespace DietDiagnosis.Controllers
         {
             try
             {
-                var userFromDb = db.AppUsers.SingleOrDefault(c => c.ApplicationUserId == user.ApplicationUserId);
+                var userFromDb = db.AppUsers.SingleOrDefault(c => c.Id == user.Id);
                 userFromDb.FirstName = user.FirstName;
                 userFromDb.LastName = user.LastName;
                 userFromDb.Age = user.Age;

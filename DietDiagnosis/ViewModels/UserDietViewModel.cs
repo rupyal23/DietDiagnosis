@@ -9,6 +9,6 @@ namespace DietDiagnosis.ViewModels
     public class UserDietViewModel
     {
         public AppUser AppUser { get; set; }
-        public List<DietPlan> DietPlan { get; set; }
+        public DietPlan DietPlan { get; set; }
     }
 }

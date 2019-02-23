@@ -25,13 +25,7 @@ namespace DietDiagnosis.Controllers
                 var dietPlans = db.DietPlans.Where(d => d.AppUserId == appUser.Id).ToList();
                 if(dietPlans.Count != 0)
                 {
-                    var viewModel = new UserDietViewModel
-                    {
-                        AppUser = appUser,
-                        DietPlan = dietPlans
-
-                    };
-                    return View(viewModel);
+                    return View(dietPlans);
 
                 }
                 else

@@ -21,6 +21,9 @@ namespace DietDiagnosis.Models
         public int Age { get; set; }
 
         public string Sex { get; set; }
+        public List<string> Preferences { get; set; }
+
+        public List<string> Exclusions { get; set; }
 
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }

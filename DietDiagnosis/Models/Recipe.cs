@@ -20,10 +20,9 @@ namespace DietDiagnosis.Models
         public int DietPlanId { get; set; }
         public DietPlan DietPlan { get; set; }
 
-        [ForeignKey("Id")]
-        public List<Nutrient> Nutrients { get; set; }
-        public Nutrient Nutrient { get; set; }
-
+        //[ForeignKey("Id")]
+        //public List<Nutrient> Nutrients { get; set; }
+        //public Nutrient Nutrient { get; set; }
 
     }
 }
