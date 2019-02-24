@@ -11,7 +11,7 @@ namespace DietDiagnosis.Controllers
 {
     public class DietPlanController : Controller
     {
-        ApplicationDbContext db;
+        private ApplicationDbContext db;
         public DietPlanController()
         {
             db = new ApplicationDbContext();
@@ -59,15 +59,42 @@ namespace DietDiagnosis.Controllers
             return View();
         }
 
-        // POST: DietPlan/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(UserDietViewModel viewModel)
         {
             try
             {
-                // TODO: Add insert logic here
+                
+                return RedirectToAction("Index", "AppUser");
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
-                return RedirectToAction("Index");
+
+        // GET: DietPlan/Settings
+        public ActionResult Settings()
+        {
+            return View();
+        }
+
+        // POST: DietPlan/Settings
+        [HttpPost]
+        public ActionResult Settings(UserDietViewModel viewModel)
+        {
+            try
+            {
+                
+                var userLoggedIn = User.Identity.GetUserId();
+                var user = db.AppUsers.SingleOrDefault(a => a.ApplicationUserId == userLoggedIn);
+                var dietPlan = db.DietPlans.Where(c => c.AppUserId == user.Id).Single();
+                dietPlan.Name = viewModel.DietPlan.Name;
+                //dietPlan.AppUser.Preferences = viewModel.AppUser.Preferences;
+                //dietPlan.AppUser.Exclusions = viewModel.AppUser.Exclusions;
+                db.SaveChanges();
+                return RedirectToAction("Create");
             }
             catch
             {
@@ -81,13 +108,13 @@ namespace DietDiagnosis.Controllers
             return View();
         }
 
-        // POST: DietPlan/Edit/5
+        // POST: DietPlan/Save
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Save(DietPlan dietPlan)
         {
             try
             {
-                // TODO: Add update logic here
+                
 
                 return RedirectToAction("Index");
             }

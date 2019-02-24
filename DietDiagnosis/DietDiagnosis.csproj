@@ -238,10 +238,23 @@
     <Compile Include="Migrations\201902232221474_PopulateNutrientTable3.Designer.cs">
       <DependentUpon>201902232221474_PopulateNutrientTable3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902240000336_AddedDietPrfClass.cs" />
+    <Compile Include="Migrations\201902240000336_AddedDietPrfClass.Designer.cs">
+      <DependentUpon>201902240000336_AddedDietPrfClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902240004566_AddedDietPrfClass1.cs" />
+    <Compile Include="Migrations\201902240004566_AddedDietPrfClass1.Designer.cs">
+      <DependentUpon>201902240004566_AddedDietPrfClass1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902240007327_AddedDietPrfClass2.cs" />
+    <Compile Include="Migrations\201902240007327_AddedDietPrfClass2.Designer.cs">
+      <DependentUpon>201902240007327_AddedDietPrfClass2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\DietPlan.cs" />
+    <Compile Include="Models\DietPreference.cs" />
     <Compile Include="Models\HealthProblem.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -311,6 +324,7 @@
     <Content Include="Views\AppUser\Update.cshtml" />
     <Content Include="Views\AppUser\Index.cshtml" />
     <Content Include="Views\DietPlan\Create.cshtml" />
+    <Content Include="Views\DietPlan\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -361,6 +375,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902232221474_PopulateNutrientTable3.resx">
       <DependentUpon>201902232221474_PopulateNutrientTable3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902240000336_AddedDietPrfClass.resx">
+      <DependentUpon>201902240000336_AddedDietPrfClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902240004566_AddedDietPrfClass1.resx">
+      <DependentUpon>201902240004566_AddedDietPrfClass1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902240007327_AddedDietPrfClass2.resx">
+      <DependentUpon>201902240007327_AddedDietPrfClass2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

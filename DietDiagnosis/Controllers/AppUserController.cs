@@ -10,7 +10,7 @@ namespace DietDiagnosis.Controllers
 {
     public class AppUserController : Controller
     {
-        ApplicationDbContext db;
+        private ApplicationDbContext db;
 
         public AppUserController()
         {
@@ -24,11 +24,8 @@ namespace DietDiagnosis.Controllers
             {
                 return View("Create", user);
             }
-            var dietPlans = db.DietPlans.Where(d => d.AppUserId == user.Id).ToList();
-            if(dietPlans == null)
-            {
-                return RedirectToAction("Create", "DietPlan");
-            }
+            var dietPlans = GetDietPlan(user);
+            
             return View(dietPlans);
         }
 
@@ -44,6 +41,7 @@ namespace DietDiagnosis.Controllers
 
             return View();
         }
+
 
         // POST: AppUser/Create
         [HttpPost]
@@ -124,6 +122,12 @@ namespace DietDiagnosis.Controllers
             var userLoggedIn = User.Identity.GetUserId();
             var user = db.AppUsers.Single(c => c.ApplicationUserId == userLoggedIn);
             return user;
+        }
+
+        private List<DietPlan> GetDietPlan(AppUser user)
+        {
+            var dietPlan = db.DietPlans.Where(d => d.AppUserId == user.Id).ToList();
+            return dietPlan;
         }
     }
 }

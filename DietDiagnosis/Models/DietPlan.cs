@@ -18,6 +18,8 @@ namespace DietDiagnosis.Models
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
 
+
+
         //[ForeignKey("Id")]
         //public List<Nutrient> Nutrients { get; set; }
 
