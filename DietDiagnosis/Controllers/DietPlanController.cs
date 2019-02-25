@@ -77,7 +77,16 @@ namespace DietDiagnosis.Controllers
         // GET: DietPlan/Settings
         public ActionResult Settings()
         {
-            return View();
+            var user = GetUser();
+            var dietPlan = GetDietPlan(user);
+            var viewModel = new UserDietViewModel
+            {
+                //DietPlan = dietPlan[0],
+                AppUser = user,
+                DietPreferences = db.DietPreferences.ToList()
+
+            };
+            return View(viewModel);
         }
 
         // POST: DietPlan/Settings
@@ -145,5 +154,12 @@ namespace DietDiagnosis.Controllers
                 return View();
             }
         }
+        private List<DietPlan> GetDietPlan(AppUser user)
+        {
+            var dietPlan = db.DietPlans.Where(d => d.AppUserId == user.Id).ToList();
+            return dietPlan;
+        }
+
+
     }
 }

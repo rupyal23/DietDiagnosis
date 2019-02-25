@@ -11,7 +11,9 @@ namespace DietDiagnosis.ViewModels
         public AppUser AppUser { get; set; }
         public DietPlan DietPlan { get; set; }
 
-        public List<DietPreference> DietPreferences { get; set; }
+        public IEnumerable<DietPreference> DietPreferences { get; set; }
+
+        public List<DietPreference> SelectedPreferences { get; set; }
         
     }
 }
