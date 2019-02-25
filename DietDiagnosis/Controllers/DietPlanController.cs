@@ -56,6 +56,7 @@ namespace DietDiagnosis.Controllers
         // GET: DietPlan/Create
         public ActionResult Create()
         {
+            var user = GetUser();
             return View();
         }
 
@@ -64,7 +65,13 @@ namespace DietDiagnosis.Controllers
         {
             try
             {
-                
+                var user = GetUser();
+                var dietPlan = new DietPlan();
+                dietPlan.Name = viewModel.DietPlan.Name;
+                dietPlan.NumberOfMeals = viewModel.DietPlan.NumberOfMeals;
+                dietPlan.AppUserId = user.Id;
+                db.DietPlans.Add(dietPlan);
+                db.SaveChanges();
                 return RedirectToAction("Index", "AppUser");
             }
             catch
@@ -79,11 +86,11 @@ namespace DietDiagnosis.Controllers
         {
             var user = GetUser();
             var dietPlan = GetDietPlan(user);
-            var viewModel = new UserDietViewModel
-            {
-                //DietPlan = dietPlan[0],
-                AppUser = user,
-                DietPreferences = db.DietPreferences.ToList()
+            var viewModel = new PreferenceViewModel
+            {   
+                DietPreferences = db.DietPreferences.ToList(),
+                Nutrients = db.Nutrients.ToList()
+                
 
             };
             return View(viewModel);
@@ -91,18 +98,21 @@ namespace DietDiagnosis.Controllers
 
         // POST: DietPlan/Settings
         [HttpPost]
-        public ActionResult Settings(UserDietViewModel viewModel)
+        public ActionResult Settings(PreferenceViewModel viewModel)
         {
             try
             {
-                
-                var userLoggedIn = User.Identity.GetUserId();
-                var user = db.AppUsers.SingleOrDefault(a => a.ApplicationUserId == userLoggedIn);
-                var dietPlan = db.DietPlans.Where(c => c.AppUserId == user.Id).Single();
-                dietPlan.Name = viewModel.DietPlan.Name;
-                //dietPlan.AppUser.Preferences = viewModel.AppUser.Preferences;
-                //dietPlan.AppUser.Exclusions = viewModel.AppUser.Exclusions;
+
+                var user = GetUser();
+                var dietPlan = GetDietPlan(user);
+                List<string> dietPreferences = new List<string>();
+                List<string> dietExclusions = new List<string>();
+                dietPreferences.AddRange(viewModel.SelectedPreferences.ToList());
+                dietExclusions.AddRange(viewModel.SelectedNutrients.ToList());
+                var preferencesInDb = db.DietPreferences.ToList();
+                TogglePreferences(dietPreferences);
                 db.SaveChanges();
+               
                 return RedirectToAction("Create");
             }
             catch
@@ -160,6 +170,29 @@ namespace DietDiagnosis.Controllers
             return dietPlan;
         }
 
+        public void TogglePreferences(List<string>Preferences)
+        {
+            ResetPreferences();
+            var preferencesInDb = db.DietPreferences.ToList();
+            for (var i = 0; i < Preferences.Count; i++)
+            {
+                foreach (var item in preferencesInDb)
+                {
+                    if (item.Name == Preferences[i])
+                        item.IsSelected = true;
+                }
+            }
+        }
 
+        public void ResetPreferences()
+        {
+            var preferencesInDb = db.DietPreferences.ToList();
+           
+            foreach (var item in preferencesInDb)
+            {
+                item.IsSelected = false;
+            }
+            
+        }
     }
 }

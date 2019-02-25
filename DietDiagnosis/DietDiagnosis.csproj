@@ -254,6 +254,22 @@
     <Compile Include="Migrations\201902251942492_PopulateDietPreferences.Designer.cs">
       <DependentUpon>201902251942492_PopulateDietPreferences.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902252100356_AddedExclusionAndPreferenceInUser.cs" />
+    <Compile Include="Migrations\201902252100356_AddedExclusionAndPreferenceInUser.Designer.cs">
+      <DependentUpon>201902252100356_AddedExclusionAndPreferenceInUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902252147176_ChangedPropInUser.cs" />
+    <Compile Include="Migrations\201902252147176_ChangedPropInUser.Designer.cs">
+      <DependentUpon>201902252147176_ChangedPropInUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902252225385_ChangedPropInUserAgain.cs" />
+    <Compile Include="Migrations\201902252225385_ChangedPropInUserAgain.Designer.cs">
+      <DependentUpon>201902252225385_ChangedPropInUserAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902252300579_AddedNoOfMealsInDIetPlan.cs" />
+    <Compile Include="Migrations\201902252300579_AddedNoOfMealsInDIetPlan.Designer.cs">
+      <DependentUpon>201902252300579_AddedNoOfMealsInDIetPlan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -266,6 +282,7 @@
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\PreferenceViewModel.cs" />
     <Compile Include="ViewModels\UserDietViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +408,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902251942492_PopulateDietPreferences.resx">
       <DependentUpon>201902251942492_PopulateDietPreferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902252100356_AddedExclusionAndPreferenceInUser.resx">
+      <DependentUpon>201902252100356_AddedExclusionAndPreferenceInUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902252147176_ChangedPropInUser.resx">
+      <DependentUpon>201902252147176_ChangedPropInUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902252225385_ChangedPropInUserAgain.resx">
+      <DependentUpon>201902252225385_ChangedPropInUserAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902252300579_AddedNoOfMealsInDIetPlan.resx">
+      <DependentUpon>201902252300579_AddedNoOfMealsInDIetPlan.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

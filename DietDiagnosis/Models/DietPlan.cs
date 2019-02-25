@@ -14,6 +14,8 @@ namespace DietDiagnosis.Models
 
         public string Name { get; set; }
 
+        public int NumberOfMeals { get; set; }
+
         [ForeignKey("AppUser")]
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
