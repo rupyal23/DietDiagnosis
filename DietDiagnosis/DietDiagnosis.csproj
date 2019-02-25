@@ -250,6 +250,10 @@
     <Compile Include="Migrations\201902240007327_AddedDietPrfClass2.Designer.cs">
       <DependentUpon>201902240007327_AddedDietPrfClass2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902251942492_PopulateDietPreferences.cs" />
+    <Compile Include="Migrations\201902251942492_PopulateDietPreferences.Designer.cs">
+      <DependentUpon>201902251942492_PopulateDietPreferences.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -384,6 +388,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902240007327_AddedDietPrfClass2.resx">
       <DependentUpon>201902240007327_AddedDietPrfClass2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902251942492_PopulateDietPreferences.resx">
+      <DependentUpon>201902251942492_PopulateDietPreferences.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
