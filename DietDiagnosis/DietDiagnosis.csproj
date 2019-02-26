@@ -270,11 +270,24 @@
     <Compile Include="Migrations\201902252300579_AddedNoOfMealsInDIetPlan.Designer.cs">
       <DependentUpon>201902252300579_AddedNoOfMealsInDIetPlan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902260228003_HealthLabelModelAdded.cs" />
+    <Compile Include="Migrations\201902260228003_HealthLabelModelAdded.Designer.cs">
+      <DependentUpon>201902260228003_HealthLabelModelAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902260230404_HealthLabelModelAdded2.cs" />
+    <Compile Include="Migrations\201902260230404_HealthLabelModelAdded2.Designer.cs">
+      <DependentUpon>201902260230404_HealthLabelModelAdded2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902260231584_PopulateHealthLabels.cs" />
+    <Compile Include="Migrations\201902260231584_PopulateHealthLabels.Designer.cs">
+      <DependentUpon>201902260231584_PopulateHealthLabels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\DietPlan.cs" />
     <Compile Include="Models\DietPreference.cs" />
+    <Compile Include="Models\HealthLabel.cs" />
     <Compile Include="Models\HealthProblem.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -420,6 +433,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902252300579_AddedNoOfMealsInDIetPlan.resx">
       <DependentUpon>201902252300579_AddedNoOfMealsInDIetPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902260228003_HealthLabelModelAdded.resx">
+      <DependentUpon>201902260228003_HealthLabelModelAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902260230404_HealthLabelModelAdded2.resx">
+      <DependentUpon>201902260230404_HealthLabelModelAdded2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902260231584_PopulateHealthLabels.resx">
+      <DependentUpon>201902260231584_PopulateHealthLabels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

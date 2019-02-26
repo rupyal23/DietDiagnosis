@@ -39,5 +39,6 @@ namespace DietDiagnosis.Models
         public DbSet<HealthProblem> HealthProblems { get; set; }
 
         public DbSet<DietPreference> DietPreferences { get; set; }
+        public DbSet<HealthLabel> HealthLabels { get; set; }
     }
 }
