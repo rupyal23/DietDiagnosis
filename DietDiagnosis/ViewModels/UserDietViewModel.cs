@@ -11,5 +11,8 @@ namespace DietDiagnosis.ViewModels
         public AppUser AppUser { get; set; }
         public DietPlan DietPlan { get; set; }
 
+        public List<string> DietPreferences { get; set; }
+        public List<string> HealthLabels { get; set; }
+
     }
 }

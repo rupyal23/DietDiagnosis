@@ -57,6 +57,7 @@ namespace DietDiagnosis.Controllers
         }
 
         // GET: DietPlan/Create
+        [HttpGet]
         public ActionResult Create()
         {
             var user = GetUser();
@@ -64,7 +65,7 @@ namespace DietDiagnosis.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(UserDietViewModel viewModel)
+        public async Task<ActionResult> Create(UserDietViewModel viewModel)
         {
             try
             {
@@ -74,7 +75,18 @@ namespace DietDiagnosis.Controllers
                 dietPlan.NumberOfMeals = viewModel.DietPlan.NumberOfMeals;
                 dietPlan.AppUserId = user.Id;
                 db.DietPlans.Add(dietPlan);
+                var dietPreferencesList = db.DietPreferences.Where(c => c.IsSelected == true).Select(c => c.Name).ToList();
+                var healthLabelsList = db.HealthLabels.Where(d => d.IsSelected == true).Select(c => c.Name).ToList();
+               
+                var model = new UserDietViewModel
+                {
+                    AppUser = user,
+                    DietPlan = dietPlan,
+                    DietPreferences = dietPreferencesList,
+                    HealthLabels = healthLabelsList
+                };
                 db.SaveChanges();
+                var plan = await GetDietPlan(model);
                 return RedirectToAction("Index", "AppUser");
             }
             catch
@@ -88,13 +100,12 @@ namespace DietDiagnosis.Controllers
         public ActionResult Settings()
         {
             var user = GetUser();
-            var dietPlan = GetDietPlan(user);
+            var dietPlan = RetrievePlan(user);
             var viewModel = new PreferenceViewModel
             {   
                 DietPreferences = db.DietPreferences.ToList(),
-                Nutrients = db.Nutrients.ToList()
-                
-
+                Nutrients = db.Nutrients.ToList(),
+                HealthLabels = db.HealthLabels.ToList()
             };
             return View(viewModel);
         }
@@ -107,15 +118,17 @@ namespace DietDiagnosis.Controllers
             {
 
                 var user = GetUser();
-                var dietPlan = GetDietPlan(user);
+                var dietPlan = RetrievePlan(user);
                 List<string> dietPreferences = new List<string>();
-                List<string> dietExclusions = new List<string>();
+                //List<string> dietExclusions = new List<string>();
+                List<string> healthLabels = new List<string>();
                 dietPreferences.AddRange(viewModel.SelectedPreferences.ToList());
-                dietExclusions.AddRange(viewModel.SelectedNutrients.ToList());
+                healthLabels.AddRange(viewModel.SelectedLabels.ToList());
+               // dietExclusions.AddRange(viewModel.SelectedNutrients.ToList());
                 var preferencesInDb = db.DietPreferences.ToList();
                 TogglePreferences(dietPreferences);
+                ToggleHealthLabels(healthLabels);
                 db.SaveChanges();
-               
                 return RedirectToAction("Create");
             }
             catch
@@ -130,9 +143,9 @@ namespace DietDiagnosis.Controllers
             return View();
         }
 
-        // POST: DietPlan/Save
+        // POST: DietPlan/Edit/5
         [HttpPost]
-        public ActionResult Save(DietPlan dietPlan)
+        public ActionResult Edit(DietPlan dietPlan)
         {
             try
             {
@@ -167,7 +180,7 @@ namespace DietDiagnosis.Controllers
                 return View();
             }
         }
-        private List<DietPlan> GetDietPlan(AppUser user)
+        private List<DietPlan> RetrievePlan(AppUser user)
         {
             var dietPlan = db.DietPlans.Where(d => d.AppUserId == user.Id).ToList();
             return dietPlan;
@@ -190,24 +203,50 @@ namespace DietDiagnosis.Controllers
         public void ResetPreferences()
         {
             var preferencesInDb = db.DietPreferences.ToList();
-           
+            
             foreach (var item in preferencesInDb)
             {
                 item.IsSelected = false;
             }
-            
+           
+        }
+        
+        public void ResetHealthLabels()
+        {
+            var healthLabelsInDb = db.HealthLabels.ToList();
+            foreach (var item in healthLabelsInDb)
+            {
+                item.IsSelected = false;
+            }
         }
 
-        public async Task<ActionResult> GetDietPlan(PreferenceViewModel viewModel)
+        public void ToggleHealthLabels(List<string> labels)
         {
-            var user = GetUser();
+            ResetHealthLabels();
+            var labelsInDb = db.HealthLabels.ToList();
+            for (var i = 0; i < labels.Count; i++)
+            {
+                foreach (var item in labelsInDb)
+                {
+                    if (item.Name == labels[i])
+                        item.IsSelected = true;
+                }
+            }
+        }
+
+        public async Task<ActionResult> GetDietPlan(UserDietViewModel viewModel)
+        {
+            //var user = GetUser();
             string API = "788ab6dbaea061d5952f619dbf8feb51";
-            var dietPlan = GetDietPlan(user);
+            //var dietPlan = RetrievePlan(user);
             var preferences = viewModel.DietPreferences;
-            var exclusions = viewModel.Nutrients;
+            var healthLabels = viewModel.HealthLabels;
+            //ar exclusions = viewModel.Nutrients;
+            var preferenceString = CreateLabelString(preferences);
+            var healthString = CreateHealthString(healthLabels);
 
             //Not right - need to correct below line
-            int totalMeals = dietPlan[0].NumberOfMeals;
+            int totalMeals = viewModel.DietPlan.NumberOfMeals;
 
             using (var client = new HttpClient())
             {
@@ -215,11 +254,18 @@ namespace DietDiagnosis.Controllers
                 switch (totalMeals)
                 {
                     case 1:
-                        var response = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}");
+                        var responseC1 = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferences}&health={viewModel.HealthLabels}");
+                        responseC1.EnsureSuccessStatusCode();
+                        var stringResultC1 = await responseC1.Content.ReadAsStringAsync();
+                        var jsonC1 = JObject.Parse(stringResultC1);
                         break;
                     case 2:
                         break;
                     case 3:
+                        var responseC3 = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferenceString}&health={healthString}");
+                        responseC3.EnsureSuccessStatusCode();
+                        var stringResultC3 = await responseC3.Content.ReadAsStringAsync();
+                        var jsonC3 = JObject.Parse(stringResultC3);
                         break;
                     case 4:
                         break;
@@ -234,6 +280,32 @@ namespace DietDiagnosis.Controllers
             return View();
         }
 
+        private string CreateLabelString(List<string> label)
+        {
+           
+            string labelString = "";
+            for(var i = 0; i < label.Count; i++)
+            {
+                labelString += label[i].ToLower();
+                labelString += "&diet=";
+            }
+            int index = labelString.LastIndexOf("&");
+            var returnedString = labelString.Remove(index, 6);
+            return returnedString;
+        }
+
+        private string CreateHealthString(List<string> list)
+        {
+            var resultedString = "";
+            for (var i = 0; i < list.Count; i++)
+            {
+                resultedString += list[i].ToLower();
+                resultedString += "&health=";
+            }
+            int index = resultedString.LastIndexOf("&");
+            var returnedString = resultedString.Remove(index, 8);
+            return returnedString;
+        }
 
         public async Task<ActionResult> GetRecipe(string input)
         {

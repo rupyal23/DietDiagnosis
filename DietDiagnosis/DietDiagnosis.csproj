@@ -359,6 +359,7 @@
     <Content Include="Views\AppUser\Index.cshtml" />
     <Content Include="Views\DietPlan\Create.cshtml" />
     <Content Include="Views\DietPlan\Settings.cshtml" />
+    <Content Include="Views\DietPlan\ViewPlan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
