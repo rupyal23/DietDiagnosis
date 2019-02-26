@@ -1,9 +1,12 @@
 ﻿using DietDiagnosis.Models;
 using DietDiagnosis.ViewModels;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -193,6 +196,71 @@ namespace DietDiagnosis.Controllers
                 item.IsSelected = false;
             }
             
+        }
+
+        public async Task<ActionResult> GetDietPlan(PreferenceViewModel viewModel)
+        {
+            var user = GetUser();
+            string API = "788ab6dbaea061d5952f619dbf8feb51";
+            var dietPlan = GetDietPlan(user);
+            var preferences = viewModel.DietPreferences;
+            var exclusions = viewModel.Nutrients;
+
+            //Not right - need to correct below line
+            int totalMeals = dietPlan[0].NumberOfMeals;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://api.edamam.com");
+                switch (totalMeals)
+                {
+                    case 1:
+                        var response = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}");
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+                
+            //API call to get plan based on Recipes and user preferences
+
+            return View();
+        }
+
+
+        public async Task<ActionResult> GetRecipe(string input)
+        {
+            string API = "788ab6dbaea061d5952f619dbf8feb51";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://api.edamam.com/");
+                var response = await client.GetAsync($"search?q={input}&app_id=6f52fd65&app_key={API}");
+                response.EnsureSuccessStatusCode();
+                var stringResult = await response.Content.ReadAsStringAsync();
+
+                var json = JObject.Parse(stringResult);
+            }
+                
+                return View();
+        }
+
+        public async Task<ActionResult> GetRecipeMultipleIngredients(List<string>Ingredients)
+        {
+            //Add API call to get recipe on multiple ingredients
+            return View();
+        }
+
+        public async Task<ActionResult> GetFoodInfo(string input)
+        {
+            //API call to get food nutrition info from USDA
+            return View();
         }
     }
 }
