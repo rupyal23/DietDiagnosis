@@ -1,11 +1,30 @@
-﻿@model DietDiagnosis.Models.Recipe
+﻿@model DietDiagnosis.ViewModels.DietPlanViewModel
 @{
     ViewBag.Title = "ViewPlan";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
 
-<div class="page-header">
-    <h1>@Model.DietPlan.Name</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>@Model.DietPlan.Name</h1>
+        </div>
+    </div>
 </div>
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>Total Calories : @Model.DietPlan.TotalCalories</p>
+            <p>Total Number of Meals : @Model.DietPlan.NumberOfMeals</p>
+        </div>
+    </div>
+</div>
+@for(int i =0; i< Model.DietPlan.NumberOfMeals; i++)
+{
+    <div class="col-md-4">
+        <h3>Meal @(i+1)</h3>
+        <p>@Model.Recipe[i].Name</p>
+    </div>
+}
 
 

@@ -88,7 +88,13 @@ namespace DietDiagnosis.Controllers
                 };
                 db.SaveChanges();
                 var plan = await GetDietPlan(model);
-                return RedirectToAction("Index", "AppUser");
+                var meals = db.Recipes.Where(c => c.DietPlanId == plan.Id).ToList();
+                var dietModel = new DietPlanViewModel
+                {
+                    DietPlan = plan,
+                    Recipe = meals
+                };
+                return View("ViewPlan", dietModel);
             }
             catch
             {
@@ -241,46 +247,49 @@ namespace DietDiagnosis.Controllers
 
         }
         //Need to work - get recipe chart on number of meals entered
-        public async Task<ActionResult> GetDietPlan(UserDietViewModel viewModel)
+        public async Task<DietPlan> GetDietPlan(UserDietViewModel viewModel)
         {
-           // double totalCals = 0;
-            string API = "788ab6dbaea061d5952f619dbf8feb51";
-            var user = viewModel.AppUser;
             var dietPlan = viewModel.DietPlan;
-            var preferences = viewModel.DietPreferences;
-            var healthLabels = viewModel.HealthLabels;
-            //var exclusions = viewModel.Nutrients;
-            var preferenceString = CreateLabelString(preferences);
-            var healthString = CreateHealthString(healthLabels);
-            int totalMeals = dietPlan.NumberOfMeals;
-
-            using (var client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri("https://api.edamam.com");
-                //while(totalCals < dietPlan.TotalCalories)
-                //{
+                string API = "788ab6dbaea061d5952f619dbf8feb51";
+                var user = viewModel.AppUser;
+                var preferences = viewModel.DietPreferences;
+                var healthLabels = viewModel.HealthLabels;
+                //var exclusions = viewModel.Nutrients;
+                var preferenceString = CreateLabelString(preferences);
+                var healthString = CreateHealthString(healthLabels);
+                int totalMeals = dietPlan.NumberOfMeals;
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("https://api.edamam.com");
                     Recipe recipe = new Recipe();
                     for (int i = 0; i < totalMeals; i++)
                     {
-                        var response = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferences}&health={viewModel.HealthLabels}");
+                        var response = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferenceString}&health={healthString}");
                         response.EnsureSuccessStatusCode();
                         var stringResult = await response.Content.ReadAsStringAsync();
                         var json = JObject.Parse(stringResult);
                         recipe.DietPlanId = dietPlan.Id;
-                        recipe.Name = json["hits"][0]["recipe"]["label"].ToString();
+                        recipe.Name = json["hits"][i]["recipe"]["label"].ToString();
                         recipe.Calories = Double.Parse(json["hits"][0]["recipe"]["calories"].ToString());
                         recipe.Calories = Math.Round(recipe.Calories, 2);
-                       // totalCals += recipe.Calories;
-                    }
-                    db.Recipes.Add(recipe);
-                    db.SaveChanges();
-                //}
-                
+                        db.Recipes.Add(recipe);
+                        db.SaveChanges();
+                    // totalCals += recipe.Calories;
+                    }  
+                    return dietPlan;
+                }
             }
-                
+            catch(IndexOutOfRangeException)
+            {
+                return dietPlan;
+            }
+
             //API call to get plan based on Recipes and user preferences
 
-            return View();
+
         }
 
         //Helper method for URL string
