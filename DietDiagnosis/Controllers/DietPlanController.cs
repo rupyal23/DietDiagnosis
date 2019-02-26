@@ -234,6 +234,7 @@ namespace DietDiagnosis.Controllers
             }
         }
 
+        //Need to work - get recipe chart on number of meals entered
         public async Task<ActionResult> GetDietPlan(UserDietViewModel viewModel)
         {
             //var user = GetUser();
@@ -280,6 +281,7 @@ namespace DietDiagnosis.Controllers
             return View();
         }
 
+        //Helper method for URL string
         private string CreateLabelString(List<string> label)
         {
            
@@ -294,6 +296,7 @@ namespace DietDiagnosis.Controllers
             return returnedString;
         }
 
+        //Helper method for URL string
         private string CreateHealthString(List<string> list)
         {
             var resultedString = "";
@@ -333,6 +336,31 @@ namespace DietDiagnosis.Controllers
         {
             //API call to get food nutrition info from USDA
             return View();
+        }
+
+        //Need to work 
+        public async Task<Recipe> GetRecipeOnFood(string input)
+        {
+            string API = "788ab6dbaea061d5952f619dbf8feb51";
+            Recipe recipe = new Recipe();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://api.edamam.com/");
+                var response = await client.GetAsync($"search?q={input}&app_id=6f52fd65&app_key={API}");
+                response.EnsureSuccessStatusCode();
+                var stringResult = await response.Content.ReadAsStringAsync();
+                var json = JObject.Parse(stringResult);
+                recipe.Name = json["hits"][0]["recipe"]["label"].ToString();
+                recipe.Calories = Double.Parse(json["hits"][0]["recipe"]["calories"].ToString());
+                recipe.Calories = Math.Round(recipe.Calories, 2);
+                var dietPlan = RetrievePlan(GetUser());
+                //Need to fix
+                recipe.DietPlanId = dietPlan[0].Id;
+
+            }
+            db.Recipes.Add(recipe);
+            db.SaveChanges();
+            return recipe;
         }
     }
 }
