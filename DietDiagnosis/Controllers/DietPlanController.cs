@@ -275,6 +275,7 @@ namespace DietDiagnosis.Controllers
                         recipe.Name = json["hits"][i]["recipe"]["label"].ToString();
                         recipe.Calories = Double.Parse(json["hits"][0]["recipe"]["calories"].ToString());
                         recipe.Calories = Math.Round(recipe.Calories, 2);
+                        recipe.Image = json["hits"][i]["recipe"]["image"].ToString();
                         db.Recipes.Add(recipe);
                         db.SaveChanges();
                     // totalCals += recipe.Calories;
@@ -372,5 +373,11 @@ namespace DietDiagnosis.Controllers
             db.SaveChanges();
             return recipe;
         }
+
+        //Using USDA API, get food info
+        //public async Task<ActionResult> FoodSearch(string input)
+        //{
+
+        //}
     }
 }

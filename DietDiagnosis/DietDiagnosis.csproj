@@ -286,6 +286,10 @@
     <Compile Include="Migrations\201902261735167_AddedPropInDietPlan.Designer.cs">
       <DependentUpon>201902261735167_AddedPropInDietPlan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902262152176_AddedImagePropInRecipe.cs" />
+    <Compile Include="Migrations\201902262152176_AddedImagePropInRecipe.Designer.cs">
+      <DependentUpon>201902262152176_AddedImagePropInRecipe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -453,6 +457,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902261735167_AddedPropInDietPlan.resx">
       <DependentUpon>201902261735167_AddedPropInDietPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902262152176_AddedImagePropInRecipe.resx">
+      <DependentUpon>201902262152176_AddedImagePropInRecipe.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

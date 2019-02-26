@@ -16,6 +16,8 @@ namespace DietDiagnosis.Models
 
         public double Calories { get; set; }
 
+        public string Image { get; set; }
+
         [ForeignKey("DietPlan")]
         public int DietPlanId { get; set; }
         public DietPlan DietPlan { get; set; }
