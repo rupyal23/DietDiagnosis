@@ -20,6 +20,7 @@ namespace DietDiagnosis.Models
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
 
+        public double TotalCalories { get; set; }
 
 
         //[ForeignKey("Id")]

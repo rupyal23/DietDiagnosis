@@ -73,6 +73,7 @@ namespace DietDiagnosis.Controllers
                 var dietPlan = new DietPlan();
                 dietPlan.Name = viewModel.DietPlan.Name;
                 dietPlan.NumberOfMeals = viewModel.DietPlan.NumberOfMeals;
+                dietPlan.TotalCalories = viewModel.DietPlan.TotalCalories;
                 dietPlan.AppUserId = user.Id;
                 db.DietPlans.Add(dietPlan);
                 var dietPreferencesList = db.DietPreferences.Where(c => c.IsSelected == true).Select(c => c.Name).ToList();
@@ -234,46 +235,47 @@ namespace DietDiagnosis.Controllers
             }
         }
 
+        //THINKING OF WRITING THE CORE LOGIC IN HERE
+        public void GeneratePlan(UserDietViewModel viewModel)
+        {
+
+        }
         //Need to work - get recipe chart on number of meals entered
         public async Task<ActionResult> GetDietPlan(UserDietViewModel viewModel)
         {
-            //var user = GetUser();
+           // double totalCals = 0;
             string API = "788ab6dbaea061d5952f619dbf8feb51";
-            //var dietPlan = RetrievePlan(user);
+            var user = viewModel.AppUser;
+            var dietPlan = viewModel.DietPlan;
             var preferences = viewModel.DietPreferences;
             var healthLabels = viewModel.HealthLabels;
-            //ar exclusions = viewModel.Nutrients;
+            //var exclusions = viewModel.Nutrients;
             var preferenceString = CreateLabelString(preferences);
             var healthString = CreateHealthString(healthLabels);
-
-            //Not right - need to correct below line
-            int totalMeals = viewModel.DietPlan.NumberOfMeals;
+            int totalMeals = dietPlan.NumberOfMeals;
 
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api.edamam.com");
-                switch (totalMeals)
-                {
-                    case 1:
-                        var responseC1 = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferences}&health={viewModel.HealthLabels}");
-                        responseC1.EnsureSuccessStatusCode();
-                        var stringResultC1 = await responseC1.Content.ReadAsStringAsync();
-                        var jsonC1 = JObject.Parse(stringResultC1);
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        var responseC3 = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferenceString}&health={healthString}");
-                        responseC3.EnsureSuccessStatusCode();
-                        var stringResultC3 = await responseC3.Content.ReadAsStringAsync();
-                        var jsonC3 = JObject.Parse(stringResultC3);
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        break;
-
-                }
+                //while(totalCals < dietPlan.TotalCalories)
+                //{
+                    Recipe recipe = new Recipe();
+                    for (int i = 0; i < totalMeals; i++)
+                    {
+                        var response = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferences}&health={viewModel.HealthLabels}");
+                        response.EnsureSuccessStatusCode();
+                        var stringResult = await response.Content.ReadAsStringAsync();
+                        var json = JObject.Parse(stringResult);
+                        recipe.DietPlanId = dietPlan.Id;
+                        recipe.Name = json["hits"][0]["recipe"]["label"].ToString();
+                        recipe.Calories = Double.Parse(json["hits"][0]["recipe"]["calories"].ToString());
+                        recipe.Calories = Math.Round(recipe.Calories, 2);
+                       // totalCals += recipe.Calories;
+                    }
+                    db.Recipes.Add(recipe);
+                    db.SaveChanges();
+                //}
+                
             }
                 
             //API call to get plan based on Recipes and user preferences
@@ -356,7 +358,6 @@ namespace DietDiagnosis.Controllers
                 var dietPlan = RetrievePlan(GetUser());
                 //Need to fix
                 recipe.DietPlanId = dietPlan[0].Id;
-
             }
             db.Recipes.Add(recipe);
             db.SaveChanges();
