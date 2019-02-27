@@ -273,7 +273,7 @@ namespace DietDiagnosis.Controllers
                         var json = JObject.Parse(stringResult);
                         recipe.DietPlanId = dietPlan.Id;
                         recipe.Name = json["hits"][i]["recipe"]["label"].ToString();
-                        recipe.Calories = Double.Parse(json["hits"][0]["recipe"]["calories"].ToString());
+                        recipe.Calories = Double.Parse(json["hits"][i]["recipe"]["calories"].ToString());
                         recipe.Calories = Math.Round(recipe.Calories, 2);
                         recipe.Image = json["hits"][i]["recipe"]["image"].ToString();
                         db.Recipes.Add(recipe);
@@ -344,10 +344,32 @@ namespace DietDiagnosis.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetFoodInfo(string input)
+        public async Task<List<Food>> GetFoods(string input)
         {
             //API call to get food nutrition info from USDA
-            return View();
+            string API = "htn2jn3wOXV60cFNLXNgrsfzlC0yhLVUT2HGLFCm";
+            Food food = new Food();
+            List<Food> foodsList = new List<Food>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://api.nal.usda.gov/");
+                var response = await client.GetAsync($"ndb/search/?format=json&q={input}&sort=n&max=10&offset=0&api_key={API}");
+                response.EnsureSuccessStatusCode();
+                var stringResult = await response.Content.ReadAsStringAsync();
+                var json = JObject.Parse(stringResult);
+                var listOfItems = json["list"]["item"];
+                var listOfNames = listOfItems["name"];
+                for(int i = 0; i < 10; i++)
+                {
+                    food.Name = listOfItems[i]["name"].ToString();
+                    food.USDANo = listOfItems[i]["ndbno"].ToObject<int>();
+                    food.Manufacturer = listOfItems[i]["manu"].ToString();
+                    //db.Foods.Add(food);
+                    //db.SaveChanges();
+                    foodsList.Add(food);
+                }
+            }
+            return foodsList;
         }
 
         //Need to work 
@@ -373,11 +395,5 @@ namespace DietDiagnosis.Controllers
             db.SaveChanges();
             return recipe;
         }
-
-        //Using USDA API, get food info
-        //public async Task<ActionResult> FoodSearch(string input)
-        //{
-
-        //}
     }
 }

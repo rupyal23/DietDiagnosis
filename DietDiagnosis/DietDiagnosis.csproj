@@ -290,11 +290,24 @@
     <Compile Include="Migrations\201902262152176_AddedImagePropInRecipe.Designer.cs">
       <DependentUpon>201902262152176_AddedImagePropInRecipe.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902271615415_AddedFoodModel.cs" />
+    <Compile Include="Migrations\201902271615415_AddedFoodModel.Designer.cs">
+      <DependentUpon>201902271615415_AddedFoodModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902271754369_updatedPropUSDA.cs" />
+    <Compile Include="Migrations\201902271754369_updatedPropUSDA.Designer.cs">
+      <DependentUpon>201902271754369_updatedPropUSDA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902271755292_AddedFKFoodId.cs" />
+    <Compile Include="Migrations\201902271755292_AddedFKFoodId.Designer.cs">
+      <DependentUpon>201902271755292_AddedFKFoodId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\DietPlan.cs" />
     <Compile Include="Models\DietPreference.cs" />
+    <Compile Include="Models\Food.cs" />
     <Compile Include="Models\HealthLabel.cs" />
     <Compile Include="Models\HealthProblem.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -460,6 +473,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902262152176_AddedImagePropInRecipe.resx">
       <DependentUpon>201902262152176_AddedImagePropInRecipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902271615415_AddedFoodModel.resx">
+      <DependentUpon>201902271615415_AddedFoodModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902271754369_updatedPropUSDA.resx">
+      <DependentUpon>201902271754369_updatedPropUSDA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902271755292_AddedFKFoodId.resx">
+      <DependentUpon>201902271755292_AddedFKFoodId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

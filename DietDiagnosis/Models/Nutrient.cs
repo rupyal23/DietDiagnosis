@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -18,5 +19,10 @@ namespace DietDiagnosis.Models
         public double Value { get; set; }
 
         public string Unit { get; set; }
+
+        [ForeignKey("Food")]
+        [Display(Name = "FoodId")]
+        public int FoodId { get; set; }
+        public Food Food { get; set; }
     }
 }

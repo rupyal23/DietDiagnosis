@@ -40,5 +40,7 @@ namespace DietDiagnosis.Models
 
         public DbSet<DietPreference> DietPreferences { get; set; }
         public DbSet<HealthLabel> HealthLabels { get; set; }
+        
+        public DbSet<Food> Foods { get; set; }
     }
 }
