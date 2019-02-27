@@ -62,8 +62,22 @@
         </div>
     </div>*@
     <div id="mySidenav" class="sidenav">
-        <input type="text" placeholder="Search..." />
-        @Html.ActionLink("Search Food", "GetFoods", "DietPlan")
+        @using (Html.BeginForm("GetFoods", "DietPlan", FormMethod.Post))
+        {
+            
+        <div class="form-group">
+            <input style="width:90%; padding-left:10px; margin-left:5px" type="text" placeholder="Search Foods..." name="input" id="input" />
+            
+        </div>
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-10">
+                    <input type="submit" value="Submit" style="width:100%" class="btn btn-sm" formaction="@Url.Action("GetFoods", "DietPlan")" formmethod="post" />
+                    @*@Html.ActionLink("Submit", "GetFoods", "DietPlan", new { @class = "btn btn-lg" })*@
+                </div>
+            </div>
+
+        }
+
         <a href="#">Home</a>
         <a href="#">Update Profile</a>
         <a href="#">Contact</a>

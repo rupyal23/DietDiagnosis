@@ -343,7 +343,7 @@ namespace DietDiagnosis.Controllers
             //Add API call to get recipe on multiple ingredients
             return View();
         }
-
+        [HttpPost]
         public async Task<List<Food>> GetFoods(string input)
         {
             //API call to get food nutrition info from USDA
@@ -358,7 +358,6 @@ namespace DietDiagnosis.Controllers
                 var stringResult = await response.Content.ReadAsStringAsync();
                 var json = JObject.Parse(stringResult);
                 var listOfItems = json["list"]["item"];
-                var listOfNames = listOfItems["name"];
                 for(int i = 0; i < 10; i++)
                 {
                     food.Name = listOfItems[i]["name"].ToString();
