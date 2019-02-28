@@ -391,8 +391,8 @@ namespace DietDiagnosis.Controllers
                     food.Name = TrimString(food.Name);
                     food.USDANo = listOfItems[i]["ndbno"].ToObject<int>();
                     food.Manufacturer = listOfItems[i]["manu"].ToString();
-                    //db.Foods.Add(food);
-                    //db.SaveChanges();
+                    db.Foods.Add(food);
+                    db.SaveChanges();
                     foodsList.Add(food);
                 }
             }
@@ -436,7 +436,12 @@ namespace DietDiagnosis.Controllers
         public async Task<List<Nutrient>> GetNutrientsInfo(int id)
         {
             List<Nutrient> nutrientInfo = new List<Nutrient>();
+            var food = db.Foods.SingleOrDefault(c => c.Id == id);
+            var input = food.Name;
+            
             return nutrientInfo;
         }
+
+        
     }
 }

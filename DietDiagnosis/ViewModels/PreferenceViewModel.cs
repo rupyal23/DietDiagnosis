@@ -16,7 +16,7 @@ namespace DietDiagnosis.ViewModels
 
         public IEnumerable<Nutrient> Nutrients { get; set; }
 
-        public string[] SelectedNutrients { get; set; }
+        public Nutrient SelectedNutrient { get; set; }
 
         public IEnumerable<HealthLabel> HealthLabels { get; set; }
 

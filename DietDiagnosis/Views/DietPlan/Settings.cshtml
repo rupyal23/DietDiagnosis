@@ -12,38 +12,46 @@
 {
     @Html.AntiForgeryToken()
 
-    
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.DietPreferences, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.ListBoxFor(model => model.SelectedPreferences, new MultiSelectList(Model.DietPreferences, "Name", "Name"), new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.DietPreferences, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DietPreferences, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.SelectedPreferences, new MultiSelectList(Model.DietPreferences, "Name", "Name"), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DietPreferences, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.HealthLabels, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.SelectedLabels, new MultiSelectList(Model.HealthLabels, "Name", "Name"), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SelectedLabels, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            <p>Add Daily Nutrient Value</p>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nutrients, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Nutrients, new MultiSelectList(Model.Nutrients, "Value", "Name", Model.Nutrients), "Select Nutrient", new { htmlAttributes = new { @class = "form-control", name = "myDropDown", id = "myDropDown" } })
+                <i>Not Less Than</i>
+                @Html.TextBoxFor(model => model.SelectedNutrient.Value, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt" })
+                <i>Not More Than</i>
+                @Html.TextBoxFor(model => model.SelectedNutrient.Value, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt2", id = "txt2" })
+                @Html.ValidationMessageFor(model => model.SelectedNutrient.Value, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.SelectedNutrient.Id)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.HealthLabels, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.ListBoxFor(model => model.SelectedLabels, new MultiSelectList(Model.HealthLabels, "Name", "Name"), new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.SelectedLabels, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.Nutrients, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.ListBoxFor(model => model.SelectedNutrients, new MultiSelectList(Model.Nutrients, "Name", "Name"), new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.SelectedNutrients, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
-    </div>
-</div>
 }
 
 <div>
@@ -52,4 +60,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/myDropDown.js")
+
 }

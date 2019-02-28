@@ -303,6 +303,10 @@
     <Compile Include="Migrations\201902271755292_AddedFKFoodId.Designer.cs">
       <DependentUpon>201902271755292_AddedFKFoodId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902280319497_addedTwoPropInNutrients.cs" />
+    <Compile Include="Migrations\201902280319497_addedTwoPropInNutrients.Designer.cs">
+      <DependentUpon>201902280319497_addedTwoPropInNutrients.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -344,6 +348,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\myDropDown.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -486,6 +491,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902271755292_AddedFKFoodId.resx">
       <DependentUpon>201902271755292_AddedFKFoodId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902280319497_addedTwoPropInNutrients.resx">
+      <DependentUpon>201902280319497_addedTwoPropInNutrients.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

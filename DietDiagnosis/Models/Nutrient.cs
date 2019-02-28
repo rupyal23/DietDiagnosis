@@ -18,6 +18,9 @@ namespace DietDiagnosis.Models
 
         public double Value { get; set; }
 
+        public double Min { get; set; }
+        public double Max { get; set; }
+
         public string Unit { get; set; }
 
         [ForeignKey("Food")]
