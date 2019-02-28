@@ -16,10 +16,10 @@ namespace DietDiagnosis.Models
 
         public string Symbol { get; set; }
 
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
-        public double Min { get; set; }
-        public double Max { get; set; }
+        public double? Min { get; set; }
+        public double? Max { get; set; }
 
         public string Unit { get; set; }
 
@@ -27,5 +27,7 @@ namespace DietDiagnosis.Models
         [Display(Name = "FoodId")]
         public int FoodId { get; set; }
         public Food Food { get; set; }
+
+        
     }
 }

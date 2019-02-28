@@ -76,8 +76,8 @@ namespace DietDiagnosis.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(UserDietViewModel viewModel)
         {
-            try
-            {
+            //try
+            //{
                 var user = GetUser();
                 var dietPlan = new DietPlan();
                 dietPlan.Name = viewModel.DietPlan.Name;
@@ -87,13 +87,15 @@ namespace DietDiagnosis.Controllers
                 db.DietPlans.Add(dietPlan);
                 var dietPreferencesList = db.DietPreferences.Where(c => c.IsSelected == true).Select(c => c.Name).ToList();
                 var healthLabelsList = db.HealthLabels.Where(d => d.IsSelected == true).Select(c => c.Name).ToList();
-               
+                var nutrient = db.Nutrients.Single(n => n.Min != 0 || n.Max != 0);
+
                 var model = new UserDietViewModel
                 {
                     AppUser = user,
                     DietPlan = dietPlan,
                     DietPreferences = dietPreferencesList,
-                    HealthLabels = healthLabelsList
+                    HealthLabels = healthLabelsList,
+                    Nutrient = nutrient
                 };
                 db.SaveChanges();
                 var plan = await GetDietPlan(model);
@@ -104,11 +106,11 @@ namespace DietDiagnosis.Controllers
                     Recipe = meals
                 };
                 return View("ViewPlan", dietModel);
-            }
-            catch
-            {
-                return View();
-            }
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
 
@@ -132,12 +134,16 @@ namespace DietDiagnosis.Controllers
         {
             try
             {
-
+                string selectedNutrientName = Request.Form["nutrients"].ToString();
                 var user = GetUser();
                 var dietPlan = RetrievePlan(user);
                 List<string> dietPreferences = new List<string>();
                 //List<string> dietExclusions = new List<string>();
                 List<string> healthLabels = new List<string>();
+                var selectedNutrient = db.Nutrients.SingleOrDefault(c => c.Name == selectedNutrientName);
+                ResetNutrientValues();
+                selectedNutrient.Min = viewModel.SelectedNutrient.Min;
+                selectedNutrient.Max = viewModel.SelectedNutrient.Max;
                 dietPreferences.AddRange(viewModel.SelectedPreferences.ToList());
                 healthLabels.AddRange(viewModel.SelectedLabels.ToList());
                // dietExclusions.AddRange(viewModel.SelectedNutrients.ToList());
@@ -267,6 +273,15 @@ namespace DietDiagnosis.Controllers
             }
         }
 
+        public void ResetNutrientValues()
+        {
+            var nutrients = db.Nutrients.ToList();
+            foreach(var item in nutrients)
+            {
+                item.Min = 0;
+                item.Max = 0;
+            }
+        }
         //THINKING OF WRITING THE CORE LOGIC IN HERE
         public void GeneratePlan(UserDietViewModel viewModel)
         {
@@ -280,24 +295,31 @@ namespace DietDiagnosis.Controllers
             {
                 string API = "788ab6dbaea061d5952f619dbf8feb51";
                 var user = viewModel.AppUser;
-                var preferences = viewModel.DietPreferences;
-                var healthLabels = viewModel.HealthLabels;
-                //var exclusions = viewModel.Nutrients;
-                var preferenceString = CreateLabelString(preferences);
-                var healthString = CreateHealthString(healthLabels);
+                //var nutrients = viewModel.Nutrients;
+                var preferenceString = CreateLabelString(viewModel.DietPreferences);
+                var healthString = CreateHealthString(viewModel.HealthLabels);
+                var nutrientString = CreateNutrientString(viewModel.Nutrient);
                 int totalMeals = dietPlan.NumberOfMeals;
 
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("https://api.edamam.com");
                     Recipe recipe = new Recipe();
-                    for (int i = 0; i < totalMeals; i++)
+                    var response = new HttpResponseMessage();
+                    if (viewModel.Nutrient == null)
                     {
-                        var response = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferenceString}&health={healthString}");
-                        response.EnsureSuccessStatusCode();
-                        var stringResult = await response.Content.ReadAsStringAsync();
-                        var json = JObject.Parse(stringResult);
-                        recipe.DietPlanId = dietPlan.Id;
+                        response = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferenceString}&health={healthString}");
+                    }
+                    else
+                    {
+                        response = await client.GetAsync($"search?q=&app_id=6f52fd65&app_key={API}&diet={preferenceString}&health={healthString}&nutrients{nutrientString}");
+                    }
+                    response.EnsureSuccessStatusCode();
+                    var stringResult = await response.Content.ReadAsStringAsync();
+                    var json = JObject.Parse(stringResult);
+                    recipe.DietPlanId = dietPlan.Id;
+                    for (int i = 0; i < totalMeals; i++)
+                    {   
                         recipe.Name = json["hits"][i]["recipe"]["label"].ToString();
                         recipe.Calories = Double.Parse(json["hits"][i]["recipe"]["calories"].ToString());
                         recipe.Calories = Math.Round(recipe.Calories, 2);
@@ -346,6 +368,24 @@ namespace DietDiagnosis.Controllers
             int index = resultedString.LastIndexOf("&");
             var returnedString = resultedString.Remove(index, 8);
             return returnedString;
+        }
+
+        private string CreateNutrientString(Nutrient nutrient)
+        {
+            var resultedString = "";
+            if(nutrient.Max == null)
+            {
+                resultedString = "%5B"+ nutrient.Symbol+ "%5D=" + nutrient.Min + "%2B";
+            }
+            else if(nutrient.Min == null)
+            {
+                resultedString = "%5B" + nutrient.Symbol + "%5D=" + nutrient.Max;
+            }
+            else
+            {
+                resultedString = "%5B" + nutrient.Symbol + "%5D=" + nutrient.Min + "-" + nutrient.Max;
+            }
+            return resultedString;
         }
 
         public async Task<ActionResult> GetRecipe(string input)

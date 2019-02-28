@@ -307,6 +307,10 @@
     <Compile Include="Migrations\201902280319497_addedTwoPropInNutrients.Designer.cs">
       <DependentUpon>201902280319497_addedTwoPropInNutrients.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902281404165_MadePropNullable.cs" />
+    <Compile Include="Migrations\201902281404165_MadePropNullable.Designer.cs">
+      <DependentUpon>201902281404165_MadePropNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -494,6 +498,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902280319497_addedTwoPropInNutrients.resx">
       <DependentUpon>201902280319497_addedTwoPropInNutrients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902281404165_MadePropNullable.resx">
+      <DependentUpon>201902281404165_MadePropNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

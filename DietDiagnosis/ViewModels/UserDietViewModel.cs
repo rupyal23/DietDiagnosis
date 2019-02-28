@@ -14,5 +14,7 @@ namespace DietDiagnosis.ViewModels
         public List<string> DietPreferences { get; set; }
         public List<string> HealthLabels { get; set; }
 
+        public Nutrient Nutrient { get; set; }
+
     }
 }
