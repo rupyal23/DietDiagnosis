@@ -53,7 +53,16 @@ namespace DietDiagnosis.Controllers
         // GET: DietPlan/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var user = GetUser();
+            var dietPlanList = RetrievePlan(user);
+            var dietPlan = dietPlanList.SingleOrDefault(c => c.Id == id);
+            var meals = db.Recipes.Where(c => c.DietPlanId == dietPlan.Id).ToList();
+            var dietModel = new DietPlanViewModel
+            {
+                DietPlan = dietPlan,
+                Recipe = meals
+            };
+            return View("ViewPlan", dietModel);
         }
 
         // GET: DietPlan/Create
@@ -147,40 +156,57 @@ namespace DietDiagnosis.Controllers
         // GET: DietPlan/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var user = GetUser();
+            var dietPlan = db.DietPlans.SingleOrDefault(c => c.Id == id);
+            var viewModel = new UserDietViewModel
+            {
+                AppUser = user,
+                DietPlan = dietPlan
+            };
+            return View(viewModel);
         }
 
         // POST: DietPlan/Edit/5
+        //Need to put preferences option and then call api
         [HttpPost]
-        public ActionResult Edit(DietPlan dietPlan)
+        public ActionResult Edit(UserDietViewModel viewModel)
         {
             try
             {
-                
-
-                return RedirectToAction("Index");
+                var dietPlan = db.DietPlans.SingleOrDefault(c => c.Id == viewModel.DietPlan.Id);
+                dietPlan.Name = viewModel.DietPlan.Name;
+                dietPlan.NumberOfMeals = viewModel.DietPlan.NumberOfMeals;
+                dietPlan.TotalCalories = viewModel.DietPlan.TotalCalories;
+                var user = GetUser();
+                viewModel.AppUser = user;
+                //PUT LOGIC TO UPDATE DIET PLAN
+                //API CALL IF PREF CHANGED, MEALS CHANGED
+                db.SaveChanges();
+               
+                var dietPlans = RetrievePlan(user);
+                return RedirectToAction("Index", "AppUser", dietPlans);
             }
             catch
             {
                 return View();
             }
         }
-
-        // GET: DietPlan/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //// GET: DietPlan/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: DietPlan/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        //[HttpPost]
+        public ActionResult Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                var dietPlan = db.DietPlans.SingleOrDefault(c => c.Id == id);
+                db.DietPlans.Remove(dietPlan);
+                db.SaveChanges();
+                return RedirectToAction("Index", "AppUser");
             }
             catch
             {
@@ -344,11 +370,11 @@ namespace DietDiagnosis.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<List<Food>> GetFoods(string input)
+        public async Task<ActionResult> GetFoods(string input)
         {
             //API call to get food nutrition info from USDA
             string API = "htn2jn3wOXV60cFNLXNgrsfzlC0yhLVUT2HGLFCm";
-            Food food = new Food();
+            
             List<Food> foodsList = new List<Food>();
             using (var client = new HttpClient())
             {
@@ -360,7 +386,9 @@ namespace DietDiagnosis.Controllers
                 var listOfItems = json["list"]["item"];
                 for(int i = 0; i < 10; i++)
                 {
+                    Food food = new Food();
                     food.Name = listOfItems[i]["name"].ToString();
+                    food.Name = TrimString(food.Name);
                     food.USDANo = listOfItems[i]["ndbno"].ToObject<int>();
                     food.Manufacturer = listOfItems[i]["manu"].ToString();
                     //db.Foods.Add(food);
@@ -368,9 +396,18 @@ namespace DietDiagnosis.Controllers
                     foodsList.Add(food);
                 }
             }
-            return foodsList;
+            return View("FoodsDisplay",foodsList);
         }
 
+        //Helper method to correct the string
+        public string TrimString(string input)
+        {
+            string result = "";
+            int index = input.LastIndexOf(",");
+            result = input.Remove(index, 19);
+            return result;
+
+        }
         //Need to work 
         public async Task<Recipe> GetRecipeOnFood(string input)
         {
@@ -393,6 +430,13 @@ namespace DietDiagnosis.Controllers
             db.Recipes.Add(recipe);
             db.SaveChanges();
             return recipe;
+        }
+
+        //Pass in the food id from display food and make logic to get details on the nutrients
+        public async Task<List<Nutrient>> GetNutrientsInfo(int id)
+        {
+            List<Nutrient> nutrientInfo = new List<Nutrient>();
+            return nutrientInfo;
         }
     }
 }

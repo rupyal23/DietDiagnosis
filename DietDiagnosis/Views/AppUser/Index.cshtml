@@ -11,10 +11,11 @@
     <a href="#">Clients</a>
     <a href="#">Contact</a>
 </div>
-<h2>Index</h2>
+<h2>Welcome </h2>
+<h3> Your Diet Plans</h3>
 
 <p>
-    @Html.ActionLink("Create New", "Settings", "DietPlan")
+    @Html.ActionLink("Create New", "Settings", "DietPlan", new { }, new {@class = "btn btn-primary"})
 </p>
 <table class="table">
     <tr>
@@ -42,9 +43,9 @@
             @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
         </td>*@
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            @Html.ActionLink("Edit", "Edit", "DietPlan", new { id = item.Id }, new { }) |
+            @Html.ActionLink("Details", "Details", "DietPlan", new { id = item.Id }, new { }) |
+            @Html.ActionLink("Delete", "Delete", "DietPlan", new { id = item.Id }, new { })
         </td>
     </tr>
 }

@@ -72,13 +72,12 @@
             <div class="form-group">
                 <div class="col-md-offset-1 col-md-10">
                     <input type="submit" value="Submit" style="width:100%" class="btn btn-sm" formaction="@Url.Action("GetFoods", "DietPlan")" formmethod="post" />
-                    @*@Html.ActionLink("Submit", "GetFoods", "DietPlan", new { @class = "btn btn-lg" })*@
+                   
                 </div>
             </div>
 
         }
-
-        <a href="#">Home</a>
+        @Html.ActionLink("Home", "Index", "AppUser")
         <a href="#">Update Profile</a>
         <a href="#">Contact</a>
     </div>

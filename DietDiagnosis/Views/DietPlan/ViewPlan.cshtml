@@ -23,7 +23,7 @@
 {
     <div class="col-md-4">
         <h3>Meal @(i+1)</h3>
-        <p>@Model.Recipe[i].Name</p>
+        @Html.DisplayFor(model => model.Recipe[i].Name)
         <p><img src="@Model.Recipe[i].Image" /></p>
     </div>
 }
