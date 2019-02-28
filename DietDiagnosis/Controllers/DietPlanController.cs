@@ -419,7 +419,7 @@ namespace DietDiagnosis.Controllers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api.nal.usda.gov/");
-                var response = await client.GetAsync($"ndb/search/?format=json&q={input}&sort=n&max=10&offset=0&api_key={API}");
+                var response = await client.GetAsync($"ndb/search/?format=json&q={input}&max=10&offset=0&api_key={API}");
                 response.EnsureSuccessStatusCode();
                 var stringResult = await response.Content.ReadAsStringAsync();
                 var json = JObject.Parse(stringResult);
@@ -443,8 +443,15 @@ namespace DietDiagnosis.Controllers
         public string TrimString(string input)
         {
             string result = "";
-            int index = input.LastIndexOf(",");
-            result = input.Remove(index, 19);
+            if(input.Contains("UPC"))
+            {
+                int index = input.LastIndexOf(",");
+                result = input.Remove(index, 19);
+            }
+            else
+            {
+                result = input;
+            }
             return result;
 
         }
@@ -475,10 +482,29 @@ namespace DietDiagnosis.Controllers
         //Pass in the food id from display food and make logic to get details on the nutrients
         public async Task<List<Nutrient>> GetNutrientsInfo(int id)
         {
+            string API = "htn2jn3wOXV60cFNLXNgrsfzlC0yhLVUT2HGLFCm";
             List<Nutrient> nutrientInfo = new List<Nutrient>();
             var food = db.Foods.SingleOrDefault(c => c.Id == id);
             var input = food.Name;
-            
+            var ndbno = food.USDANo;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://api.nal.usda.gov/");
+                var response = await client.GetAsync($"ndb/V2/reports?ndbno={ndbno}&type=b&format=json&api_key={API}");
+                response.EnsureSuccessStatusCode();
+                var stringResult = await response.Content.ReadAsStringAsync();
+                var json = JObject.Parse(stringResult);
+                var nutrientCount = json["foods"][0]["food"]["nutrients"].Count();
+                var nutrientList = json["foods"][0]["food"]["nutrients"].ToList();
+                for (int i = 0; i < nutrientCount; i++)
+                {
+                    Nutrient nutrient = new Nutrient();
+                    nutrient.Name = json["foods"][0]["food"]["nutrients"][i]["name"].ToString();
+                    nutrient.Value = nutrientList[i]["value"].ToObject<double>();
+                    nutrient.Unit = nutrientList[i]["unit"].ToObject<string>();
+                    nutrientInfo.Add(nutrient);
+                }
+            }
             return nutrientInfo;
         }
 
