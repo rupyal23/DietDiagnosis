@@ -5,12 +5,15 @@
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
 <center>
-    <h2>Welcome </h2>
-    <h3> Your Diet Plans</h3>
-
-    <p>
-        @Html.ActionLink("Create New", "Settings", "DietPlan", new { }, new { @class = "btn btn-primary" })
-    </p>
+    <div class="jumbotron">
+        
+        <h3> Your Diet Plans</h3>
+    </div>
+</center>
+        <p>
+            @Html.ActionLink("Create New", "Settings", "DietPlan", new { }, new { @class = "btn btn-primary" })
+        </p>
+ <center>
     <table class="table">
         <tr>
             <th>
@@ -28,7 +31,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="well">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 @*<td>
@@ -37,7 +40,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
                     </td>*@
-                <td>
+                <td class="well">
                     @Html.ActionLink("Edit", "Edit", "DietPlan", new { id = item.Id }, new { }) |
                     @Html.ActionLink("Details", "Details", "DietPlan", new { id = item.Id }, new { }) |
                     @Html.ActionLink("Delete", "Delete", "DietPlan", new { id = item.Id }, new { })

@@ -1,6 +1,7 @@
 ﻿using DietDiagnosis.Models;
 using DietDiagnosis.ViewModels;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -79,8 +80,8 @@ namespace DietDiagnosis.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(UserDietViewModel viewModel)
         {
-            //try
-            //{
+            try
+            {
                 var user = GetUser();
                 var dietPlan = new DietPlan();
                 dietPlan.Name = viewModel.DietPlan.Name;
@@ -91,6 +92,7 @@ namespace DietDiagnosis.Controllers
                 var dietPreferencesList = db.DietPreferences.Where(c => c.IsSelected == true).Select(c => c.Name).ToList();
                 var healthLabelsList = db.HealthLabels.Where(d => d.IsSelected == true).Select(c => c.Name).ToList();
                 var nutrient = db.Nutrients.Single(n => n.Min != 0 || n.Max != 0);
+                nutrient.DietPlanId = dietPlan.Id;
 
                 var model = new UserDietViewModel
                 {
@@ -111,11 +113,11 @@ namespace DietDiagnosis.Controllers
                     
                 };
                 return View("ViewPlan", dietModel);
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
+            }
+            catch
+            {
+                return View();
+            }
         }
 
 
@@ -450,6 +452,7 @@ namespace DietDiagnosis.Controllers
                     db.SaveChanges();
                     foodsList.Add(food);
                 }
+
             }
             return View("FoodsDisplay",foodsList);
         }
@@ -495,7 +498,7 @@ namespace DietDiagnosis.Controllers
         }
 
         //Pass in the food id from display food and make logic to get details on the nutrients
-        public async Task<List<Nutrient>> GetNutrientsInfo(int id)
+        public async Task<ActionResult> GetNutrientsInfo(int id)
         {
             string API = "htn2jn3wOXV60cFNLXNgrsfzlC0yhLVUT2HGLFCm";
             List<Nutrient> nutrientInfo = new List<Nutrient>();
@@ -520,7 +523,14 @@ namespace DietDiagnosis.Controllers
                     nutrientInfo.Add(nutrient);
                 }
             }
-            return nutrientInfo;
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            for(int i =0; i < nutrientInfo.Count; i++)
+            {
+                dataPoints.Add(new DataPoint(nutrientInfo[i].Name, nutrientInfo[i].Value));
+            }
+            
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+            return View("NutritionalInfo", food);
         }
 
         

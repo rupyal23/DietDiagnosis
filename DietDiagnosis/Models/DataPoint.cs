@@ -10,7 +10,7 @@ namespace DietDiagnosis.Models
     [DataContract]
     public class DataPoint
     {
-        public DataPoint(string name, double y)
+        public DataPoint(string name, double? y)
         {
             this.Name = name;
             this.Y = y;

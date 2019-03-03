@@ -41,9 +41,11 @@
                 
                 <i>Not Less Than</i>
                 @Html.TextBoxFor(model => model.SelectedNutrient.Min, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt" })
+                (mg).
                 @*@Html.ValidationMessageFor(model => model.SelectedNutrient.Value, "", new { @class = "text-danger" })*@
                 <i>Not More Than</i>
                 @Html.TextBoxFor(model => model.SelectedNutrient.Max, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt" })
+                (mg)
                 @*@Html.ValidationMessageFor(model => model.SelectedNutrient.Value, "", new { @class = "text-danger" })*@
 
             </div>

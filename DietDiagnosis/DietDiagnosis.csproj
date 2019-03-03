@@ -410,6 +410,7 @@
     <Content Include="Views\Shared\_InsideLayout.cshtml" />
     <Content Include="Views\DietPlan\FoodsDisplay.cshtml" />
     <Content Include="Views\DietPlan\Edit.cshtml" />
+    <Content Include="Views\DietPlan\NutritionalInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
