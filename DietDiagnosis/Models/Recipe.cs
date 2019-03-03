@@ -18,6 +18,8 @@ namespace DietDiagnosis.Models
 
         public string Image { get; set; }
 
+        
+
         [ForeignKey("DietPlan")]
         public int DietPlanId { get; set; }
         public DietPlan DietPlan { get; set; }

@@ -64,22 +64,23 @@
     <div id="mySidenav" class="sidenav">
         @using (Html.BeginForm("GetFoods", "DietPlan", FormMethod.Post))
         {
-            
-        <div class="form-group">
-            <input style="width:90%; padding-left:10px; margin-left:5px" type="text" placeholder="Search Foods..." name="input" id="input" />
-            
-        </div>
+
+            <div class="form-group">
+                <input style="width:90%; padding-left:10px; margin-left:5px" type="text" placeholder="Search Foods..." name="input" id="input" />
+
+            </div>
             <div class="form-group">
                 <div class="col-md-offset-1 col-md-10">
                     <input type="submit" value="Submit" style="width:100%" class="btn btn-sm" formaction="@Url.Action("GetFoods", "DietPlan")" formmethod="post" />
-                   
+
                 </div>
             </div>
 
         }
         @Html.ActionLink("Home", "Index", "AppUser")
-        <a href="#">Update Profile</a>
-        <a href="#">Contact</a>
+        @Html.ActionLink("Settings", "Index", "AppUser")
+        @Html.ActionLink("Contact", "Index", "AppUser")
+
     </div>
     <div class="container body-content">
         @RenderBody()

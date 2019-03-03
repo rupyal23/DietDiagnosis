@@ -4,44 +4,46 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
+<center>
+    <h2>Welcome </h2>
+    <h3> Your Diet Plans</h3>
 
-<h2>Welcome </h2>
-<h3> Your Diet Plans</h3>
+    <p>
+        @Html.ActionLink("Create New", "Settings", "DietPlan", new { }, new { @class = "btn btn-primary" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.AppUser.Preferences)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AppUser.Exclusions)
+                </th>*@
+            <th></th>
+        </tr>
 
-<p>
-    @Html.ActionLink("Create New", "Settings", "DietPlan", new { }, new {@class = "btn btn-primary"})
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.AppUser.Preferences)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AppUser.Exclusions)
-        </th>*@
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.AppUser.Preferences)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
+                    </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "DietPlan", new { id = item.Id }, new { }) |
+                    @Html.ActionLink("Details", "Details", "DietPlan", new { id = item.Id }, new { }) |
+                    @Html.ActionLink("Delete", "Delete", "DietPlan", new { id = item.Id }, new { })
+                </td>
+            </tr>
+        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.AppUser.Preferences)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
-        </td>*@
-        <td>
-            @Html.ActionLink("Edit", "Edit", "DietPlan", new { id = item.Id }, new { }) |
-            @Html.ActionLink("Details", "Details", "DietPlan", new { id = item.Id }, new { }) |
-            @Html.ActionLink("Delete", "Delete", "DietPlan", new { id = item.Id }, new { })
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
+</center>

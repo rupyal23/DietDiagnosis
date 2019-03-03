@@ -28,6 +28,9 @@ namespace DietDiagnosis.Models
         public int FoodId { get; set; }
         public Food Food { get; set; }
 
-        
+        [ForeignKey("DietPlan")]
+        [Display(Name = "DietPlanId")]
+        public int DietPlanId { get; set; }
+        public DietPlan DietPlan { get; set; }
     }
 }

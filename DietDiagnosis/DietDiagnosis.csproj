@@ -46,9 +46,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -98,9 +102,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -311,9 +312,22 @@
     <Compile Include="Migrations\201902281404165_MadePropNullable.Designer.cs">
       <DependentUpon>201902281404165_MadePropNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903021511500_AddedListInRecipe.cs" />
+    <Compile Include="Migrations\201903021511500_AddedListInRecipe.Designer.cs">
+      <DependentUpon>201903021511500_AddedListInRecipe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903021549072_deletedListInRecipe.cs" />
+    <Compile Include="Migrations\201903021549072_deletedListInRecipe.Designer.cs">
+      <DependentUpon>201903021549072_deletedListInRecipe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903031849000_AddedDietFK.cs" />
+    <Compile Include="Migrations\201903031849000_AddedDietFK.Designer.cs">
+      <DependentUpon>201903031849000_AddedDietFK.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
+    <Compile Include="Models\DataPoint.cs" />
     <Compile Include="Models\DietPlan.cs" />
     <Compile Include="Models\DietPreference.cs" />
     <Compile Include="Models\Food.cs" />
@@ -501,6 +515,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902281404165_MadePropNullable.resx">
       <DependentUpon>201902281404165_MadePropNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903021511500_AddedListInRecipe.resx">
+      <DependentUpon>201903021511500_AddedListInRecipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903021549072_deletedListInRecipe.resx">
+      <DependentUpon>201903021549072_deletedListInRecipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903031849000_AddedDietFK.resx">
+      <DependentUpon>201903031849000_AddedDietFK.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

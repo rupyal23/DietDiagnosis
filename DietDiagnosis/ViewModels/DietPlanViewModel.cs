@@ -9,6 +9,8 @@ namespace DietDiagnosis.ViewModels
     public class DietPlanViewModel
     {
         public DietPlan DietPlan { get; set; }
-        public List<Recipe> Recipe { get; set; }
+        public List<Recipe> Meals { get; set; }
+        public Nutrient Nutrient { get; set; }
+        List<DataPoint> DataPoints { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -57,10 +58,12 @@ namespace DietDiagnosis.Controllers
             var dietPlanList = RetrievePlan(user);
             var dietPlan = dietPlanList.SingleOrDefault(c => c.Id == id);
             var meals = db.Recipes.Where(c => c.DietPlanId == dietPlan.Id).ToList();
+            var nutrient = db.Nutrients.SingleOrDefault(n => n.Min != 0 || n.Max != 0);
             var dietModel = new DietPlanViewModel
             {
                 DietPlan = dietPlan,
-                Recipe = meals
+                Meals = meals,
+                Nutrient = nutrient
             };
             return View("ViewPlan", dietModel);
         }
@@ -103,7 +106,9 @@ namespace DietDiagnosis.Controllers
                 var dietModel = new DietPlanViewModel
                 {
                     DietPlan = plan,
-                    Recipe = meals
+                    Meals = meals,
+                    Nutrient = nutrient
+                    
                 };
                 return View("ViewPlan", dietModel);
             //}
@@ -282,11 +287,7 @@ namespace DietDiagnosis.Controllers
                 item.Max = 0;
             }
         }
-        //THINKING OF WRITING THE CORE LOGIC IN HERE
-        public void GeneratePlan(UserDietViewModel viewModel)
-        {
 
-        }
         //Need to work - get recipe chart on number of meals entered
         public async Task<DietPlan> GetDietPlan(UserDietViewModel viewModel)
         {
@@ -300,7 +301,7 @@ namespace DietDiagnosis.Controllers
                 var healthString = CreateHealthString(viewModel.HealthLabels);
                 var nutrientString = CreateNutrientString(viewModel.Nutrient);
                 int totalMeals = dietPlan.NumberOfMeals;
-
+                List<Nutrient> totalNutrients = db.Nutrients.ToList();
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("https://api.edamam.com");
@@ -335,10 +336,24 @@ namespace DietDiagnosis.Controllers
             {
                 return dietPlan;
             }
+        }
 
-            //API call to get plan based on Recipes and user preferences
-
-
+        public List<Nutrient> GetNutrientValues(string result, List<Nutrient> nutrients, int i)
+        {
+            var json = JObject.Parse(result);
+            
+            for (int j = 0; j < nutrients.Count; j++)
+            {
+                try
+                {
+                    nutrients[j].Value = json["hits"][i]["recipe"]["totalNutrients"][nutrients[j].Symbol]["quantity"].ToObject<double>();
+                }
+                catch
+                {
+                    j++;
+                }
+            }
+            return nutrients;
         }
 
         //Helper method for URL string
