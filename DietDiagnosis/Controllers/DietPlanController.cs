@@ -463,13 +463,54 @@ namespace DietDiagnosis.Controllers
             return View("FoodsDisplay",foodsList);
         }
 
-        //public ActionResult CheckFood(int id)
-        //{
-        //    var nutrientSelected = db.Nutrients.SingleOrDefault(c => c.Min != 0 || c.Max != 0);
-        //    var foodFromDb = db.Foods.Single(c => c.Id == id);
+        public Object CheckFood(int id, List<Nutrient> nutrientList)
+        {
+            var nutrientSelected = db.Nutrients.SingleOrDefault(c => c.Min != 0 || c.Max != 0);
+            var foodFromDb = db.Foods.Single(c => c.Id == id);
+            for(int i = 0; i < nutrientList.Count; i++)
+            {
+                if(nutrientList[i].Symbol != null && nutrientList[i].Symbol.ToUpper() == nutrientSelected.Symbol)
+                {
+                    if (nutrientList[i].Value > nutrientSelected.Min && nutrientList[i].Value < nutrientSelected.Max)
+                    {
+                        //good
+                        TempData["message"] = "Suitable Food item as per your Current Diet Restrictions";
+                        TempData["danger"] = "no";
+                        TempData["nutrient"] = nutrientList[i].Name;
+                        TempData["minValue"] = nutrientSelected.Min;
+                        TempData["maxValue"] = nutrientSelected.Max;
+                        TempData["unit"] = nutrientSelected.Unit;
+                        TempData["nutrientValue"] = nutrientList[i].Value;
+                        break;
+                    }
+                    else
+                    {
+                        TempData["message"] = "Not Suitable food as per your current health restriction";
+                        TempData["danger"] = "yes";
+                        TempData["nutrient"] = nutrientList[i].Name;
+                        TempData["minValue"] = nutrientSelected.Min;
+                        TempData["maxValue"] = nutrientSelected.Max;
+                        TempData["unit"] = nutrientSelected.Unit;
+                        TempData["nutrientValue"] = nutrientList[i].Value;
+                        break;
+                        //alert
+                    }
 
-
-        //}
+                }
+                else
+                {
+                    TempData["message"] = "This Food Item does not contain the nutrient selected.";
+                    TempData["nutrient"] = nutrientSelected.Name;
+                    TempData["minValue"] = nutrientSelected.Min;
+                    TempData["maxValue"] = nutrientSelected.Max;
+                    TempData["unit"] = nutrientSelected.Unit;
+                    TempData["nutrientValue"] = "NA";
+                    
+                }
+                
+            }
+            return TempData["message"];
+        }
         //Helper method to correct the string
         public string TrimString(string input)
         {
@@ -533,10 +574,27 @@ namespace DietDiagnosis.Controllers
                     nutrient.Name = json["foods"][0]["food"]["nutrients"][i]["name"].ToString();
                     nutrient.Value = nutrientList[i]["value"].ToObject<double>();
                     nutrient.Unit = nutrientList[i]["unit"].ToObject<string>();
+                    nutrient.Symbol = TrimSymbol(nutrient.Name);
                     nutrientInfo.Add(nutrient);
                 }
             }
             return nutrientInfo;
+        }
+
+        public string TrimSymbol(string input)
+        {
+            string result = "";
+            if(input.Contains(","))
+            {
+                int index = input.LastIndexOf(",");
+                result = input.Substring(index+1);
+                result = result.Trim();
+            }
+            else
+            {
+                result = null;
+            }
+            return result;
         }
 
         public async Task<ActionResult> GetFoodData(int id)
@@ -548,7 +606,7 @@ namespace DietDiagnosis.Controllers
             {
                 dataPoints.Add(new DataPoint(nutrientList[i].Name, nutrientList[i].Value, nutrientList[i].Unit));
             }
-
+            TempData["message"] = CheckFood(id, nutrientList);
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             return View("NutritionalInfo", food);
         }
