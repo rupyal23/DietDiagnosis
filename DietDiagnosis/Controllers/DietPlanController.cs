@@ -120,7 +120,46 @@ namespace DietDiagnosis.Controllers
             }
         }
 
+        public ActionResult Update()
+        {
+            var user = GetUser();
+            var dietPlan = RetrievePlan(user);
+            var viewModel = new PreferenceViewModel
+            {
+                DietPreferences = db.DietPreferences.ToList(),
+                Nutrients = db.Nutrients.ToList(),
+                HealthLabels = db.HealthLabels.ToList()
+            };
+            return View(viewModel);
+        }
 
+        [HttpPost]
+        public ActionResult Update(PreferenceViewModel viewModel)
+        {
+            try
+            {
+                string selectedNutrientName = Request.Form["nutrients"].ToString();
+                var user = GetUser();
+                var dietPlan = RetrievePlan(user);
+                List<string> dietPreferences = new List<string>();
+                List<string> healthLabels = new List<string>();
+                var selectedNutrient = db.Nutrients.SingleOrDefault(c => c.Name == selectedNutrientName);
+                ResetNutrientValues();
+                selectedNutrient.Min = viewModel.SelectedNutrient.Min;
+                selectedNutrient.Max = viewModel.SelectedNutrient.Max;
+                dietPreferences.AddRange(viewModel.SelectedPreferences.ToList());
+                healthLabels.AddRange(viewModel.SelectedLabels.ToList());
+                var preferencesInDb = db.DietPreferences.ToList();
+                TogglePreferences(dietPreferences);
+                ToggleHealthLabels(healthLabels);
+                db.SaveChanges();
+                return RedirectToAction("Index", "AppUser");
+            }
+            catch
+            {
+                return View();
+            }
+        }
         // GET: DietPlan/Settings
         public ActionResult Settings()
         {
@@ -145,7 +184,6 @@ namespace DietDiagnosis.Controllers
                 var user = GetUser();
                 var dietPlan = RetrievePlan(user);
                 List<string> dietPreferences = new List<string>();
-                //List<string> dietExclusions = new List<string>();
                 List<string> healthLabels = new List<string>();
                 var selectedNutrient = db.Nutrients.SingleOrDefault(c => c.Name == selectedNutrientName);
                 ResetNutrientValues();
@@ -153,7 +191,6 @@ namespace DietDiagnosis.Controllers
                 selectedNutrient.Max = viewModel.SelectedNutrient.Max;
                 dietPreferences.AddRange(viewModel.SelectedPreferences.ToList());
                 healthLabels.AddRange(viewModel.SelectedLabels.ToList());
-               // dietExclusions.AddRange(viewModel.SelectedNutrients.ToList());
                 var preferencesInDb = db.DietPreferences.ToList();
                 TogglePreferences(dietPreferences);
                 ToggleHealthLabels(healthLabels);
@@ -518,7 +555,7 @@ namespace DietDiagnosis.Controllers
             if(input.Contains("UPC"))
             {
                 int index = input.LastIndexOf(",");
-                result = input.Remove(index, 19);
+                result = input.Remove(index);
             }
             else
             {

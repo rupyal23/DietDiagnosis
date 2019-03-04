@@ -15,11 +15,17 @@
     <h2>Nutritional Information</h2>
     <p>@Model.Name</p>
 </div>
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Check</button>
 <div style="background-color:#ECF0F1" id="chartContainer"></div>
-
-
-
+<div class="well">
+    <div class="row">
+        <div class="col-md-1">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Check</button>
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-info btn-lg" onclick="goBack()">Back</button>
+        </div>
+    </div>
+</div>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -57,6 +63,12 @@
     </div>
 </div>
 
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script>

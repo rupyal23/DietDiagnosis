@@ -1,0 +1,71 @@
+﻿@model DietDiagnosis.ViewModels.PreferenceViewModel
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_InsideLayout.cshtml";
+}
+<style>
+    body {
+        background-color: #dae2e0;
+    }
+</style>
+<h2>Update Diet Profile</h2>
+
+
+@using (Html.BeginForm("Update", "DietPlan"))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DietPreferences, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.SelectedPreferences, new MultiSelectList(Model.DietPreferences, "Name", "Name"), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DietPreferences, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.HealthLabels, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.SelectedLabels, new MultiSelectList(Model.HealthLabels, "Name", "Name"), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SelectedLabels, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            <p>Update Nutrient Value</p>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nutrients, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Nutrients, new SelectList(Model.Nutrients, "Name", "Name"), "Select Nutrient", new { htmlAttributes = new { @class = "form-control" }, name = "myDropDown", id = "myDropDown" })
+
+                <i>Not Less Than</i>
+                @Html.TextBoxFor(model => model.SelectedNutrient.Min, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt", placeholder = "mg" })
+
+                @*@Html.ValidationMessageFor(model => model.SelectedNutrient.Value, "", new { @class = "text-danger" })*@
+                <span><i>Not More Than</i></span>
+                @Html.TextBoxFor(model => model.SelectedNutrient.Max, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt", placeholder = "mg" })
+
+                @*@Html.ValidationMessageFor(model => model.SelectedNutrient.Value, "", new { @class = "text-danger" })*@
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "AppUser")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*@Scripts.Render("~/Scripts/myDropDown.js")*@
+}

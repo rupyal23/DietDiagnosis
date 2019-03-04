@@ -21,6 +21,8 @@
         background-color: #dae2e0;
     }
 </style>
+
+
 <div class="well well-lg"><h2>LIST OF FOODS</h2></div>
 
 
@@ -48,8 +50,9 @@
                     @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
                 </td>*@
             <td>
-                @Html.ActionLink("Details", "GetFoodData", "DietPlan", new { id = item.Id }, new { @class = "btn btn-info"})
+                @Html.ActionLink("Details", "GetFoodData", "DietPlan", new { id = item.Id }, new { @class = "btn btn-info" })
             </td>
+           
         </tr>
     }
 
