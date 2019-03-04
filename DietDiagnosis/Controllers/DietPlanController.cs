@@ -463,6 +463,13 @@ namespace DietDiagnosis.Controllers
             return View("FoodsDisplay",foodsList);
         }
 
+        //public ActionResult CheckFood(int id)
+        //{
+        //    var nutrientSelected = db.Nutrients.SingleOrDefault(c => c.Min != 0 || c.Max != 0);
+        //    var foodFromDb = db.Foods.Single(c => c.Id == id);
+
+
+        //}
         //Helper method to correct the string
         public string TrimString(string input)
         {
@@ -504,7 +511,7 @@ namespace DietDiagnosis.Controllers
         }
 
         //Pass in the food id from display food and make logic to get details on the nutrients
-        public async Task<ActionResult> GetNutrientsInfo(int id)
+        public async Task<List<Nutrient>> GetNutrientsInfo(int id)
         {
             string API = "htn2jn3wOXV60cFNLXNgrsfzlC0yhLVUT2HGLFCm";
             List<Nutrient> nutrientInfo = new List<Nutrient>();
@@ -529,12 +536,19 @@ namespace DietDiagnosis.Controllers
                     nutrientInfo.Add(nutrient);
                 }
             }
+            return nutrientInfo;
+        }
+
+        public async Task<ActionResult> GetFoodData(int id)
+        {
+            var nutrientList = await GetNutrientsInfo(id);
+            var food = db.Foods.Single(c => c.Id == id);
             List<DataPoint> dataPoints = new List<DataPoint>();
-            for(int i =0; i < nutrientInfo.Count; i++)
+            for (int i = 0; i < nutrientList.Count; i++)
             {
-                dataPoints.Add(new DataPoint(nutrientInfo[i].Name, nutrientInfo[i].Value));
+                dataPoints.Add(new DataPoint(nutrientList[i].Name, nutrientList[i].Value, nutrientList[i].Unit));
             }
-            
+
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             return View("NutritionalInfo", food);
         }
@@ -562,11 +576,11 @@ namespace DietDiagnosis.Controllers
                 try
                 {
                     //dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["ENERC_KCAL"]["label"].ToString(), json[0]["totalNutrients"]["ENERC_KCAL"]["quantity"].ToObject<double>()));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FAT"]["label"].ToString(), json[0]["totalNutrients"]["FAT"]["quantity"].ToObject<double>()));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["CHOCDF"]["label"].ToString(), json[0]["totalNutrients"]["CHOCDF"]["quantity"].ToObject<double>()));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["PROCNT"]["label"].ToString(), json[0]["totalNutrients"]["PROCNT"]["quantity"].ToObject<double>()));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["SUGAR"]["label"].ToString(), json[0]["totalNutrients"]["SUGAR"]["quantity"].ToObject<double>()));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FIBTG"]["label"].ToString(), json[0]["totalNutrients"]["FIBTG"]["quantity"].ToObject<double>()));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FAT"]["label"].ToString(), json[0]["totalNutrients"]["FAT"]["quantity"].ToObject<double>(), "%"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["CHOCDF"]["label"].ToString(), json[0]["totalNutrients"]["CHOCDF"]["quantity"].ToObject<double>(), "%"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["PROCNT"]["label"].ToString(), json[0]["totalNutrients"]["PROCNT"]["quantity"].ToObject<double>(), "%"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["SUGAR"]["label"].ToString(), json[0]["totalNutrients"]["SUGAR"]["quantity"].ToObject<double>(), "%"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FIBTG"]["label"].ToString(), json[0]["totalNutrients"]["FIBTG"]["quantity"].ToObject<double>(), "%"));
                     ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
                 }
                 catch
