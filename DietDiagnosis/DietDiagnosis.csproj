@@ -328,6 +328,10 @@
     <Compile Include="Migrations\201903032029294_AddedURIpropInRecipe.Designer.cs">
       <DependentUpon>201903032029294_AddedURIpropInRecipe.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903040502017_MadeDietFKnullable.cs" />
+    <Compile Include="Migrations\201903040502017_MadeDietFKnullable.Designer.cs">
+      <DependentUpon>201903040502017_MadeDietFKnullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -533,6 +537,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903032029294_AddedURIpropInRecipe.resx">
       <DependentUpon>201903032029294_AddedURIpropInRecipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903040502017_MadeDietFKnullable.resx">
+      <DependentUpon>201903040502017_MadeDietFKnullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

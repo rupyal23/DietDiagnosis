@@ -30,7 +30,7 @@ namespace DietDiagnosis.Models
 
         [ForeignKey("DietPlan")]
         [Display(Name = "DietPlanId")]
-        public int DietPlanId { get; set; }
+        public int? DietPlanId { get; set; }
         public DietPlan DietPlan { get; set; }
     }
 }

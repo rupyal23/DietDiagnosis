@@ -7,7 +7,24 @@
 <h2>Recipe</h2>
 <div class="container">
     <div class="col-md-6">
-        ALL RECIPE CONTENT
+        <div class="well">
+            @Html.Raw(ViewBag.RecipeLabel)
+        </div>
+        <p>
+            <h4>Total Calories : </h4>
+            @Html.Raw(ViewBag.RecipeCalories)
+        </p>
+        <p>
+            <h4>Total Cooking Time : </h4>
+            @Html.Raw(ViewBag.RecipeCalories)
+        </p>
+        <div class="jumbotron">
+            <h4>Ingredients</h4>
+            @foreach(var item in ViewBag.RecipeIngr)
+            {
+                @Html.Raw(item)
+            }
+        </div>
     </div>
     <div class="col-md-6">
         <div id="chartContainer"></div>

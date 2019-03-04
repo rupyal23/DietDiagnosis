@@ -214,17 +214,22 @@ namespace DietDiagnosis.Controllers
         //[HttpPost]
         public ActionResult Delete(int id)
         {
-            try
-            {
-                var dietPlan = db.DietPlans.SingleOrDefault(c => c.Id == id);
+            //try
+            //{
+                var dietPlan = db.DietPlans.Single(c => c.Id == id);
                 db.DietPlans.Remove(dietPlan);
+                var recipeAssociated = db.Recipes.Where(c => c.DietPlanId == dietPlan.Id).ToList();
+                db.Recipes.RemoveRange(recipeAssociated);
+                var nutrientFromDb = db.Nutrients.SingleOrDefault(c => c.DietPlanId == dietPlan.Id);
+                if(nutrientFromDb != null)
+                nutrientFromDb.DietPlanId = null;
                 db.SaveChanges();
                 return RedirectToAction("Index", "AppUser");
-            }
-            catch
-            {
-                return View();
-            }
+            //}
+            //catch
+            //{
+            //    return View("Index", "AppUser");
+            //}
         }
         private List<DietPlan> RetrievePlan(AppUser user)
         {
@@ -558,6 +563,9 @@ namespace DietDiagnosis.Controllers
                 dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FIBTG"]["label"].ToString(), json[0]["totalNutrients"]["FIBTG"]["quantity"].ToObject<double>()));
                 dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["SUGAR"]["label"].ToString(), json[0]["totalNutrients"]["SUGAR"]["quantity"].ToObject<double>()));
                 ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+                ViewBag.RecipeLabel = recipeLabel;
+                ViewBag.RecipeCalories = recipeCal;
+                ViewBag.RecipeIngr = recipeIngredients;
             }
             return View("ViewRecipe");
         }
