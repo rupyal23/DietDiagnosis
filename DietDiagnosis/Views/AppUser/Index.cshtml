@@ -4,49 +4,51 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
-<center>
-    <div class="jumbotron">
-        
-        <h3> Your Diet Plans</h3>
-    </div>
-</center>
-        <p>
-            @Html.ActionLink("Create New", "Settings", "DietPlan", new { }, new { @class = "btn btn-primary" })
-        </p>
- <center>
-    <table class="table">
+<div class="container">
+    <center>
+        <div class="jumbotron">
+            <h3> Your Diet Plans</h3>
+        </div>
+    </center>
+</div>
+<div class="container-fluid">
+    @Html.ActionLink("Create New", "Settings", "DietPlan", new { }, new { @class = "btn btn-primary" })
+</div>
+<p></p>
+<div class="container">
+    <table class="table table-hover table-striped table-bordered">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             @*<th>
-                    @Html.DisplayNameFor(model => model.AppUser.Preferences)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AppUser.Exclusions)
-                </th>*@
-            <th></th>
+            @Html.DisplayNameFor(model => model.AppUser.Preferences)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppUser.Exclusions)
+        </th>*@
+           
         </tr>
 
         @foreach (var item in Model)
         {
             <tr>
-                <td class="well">
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 @*<td>
-                        @Html.DisplayFor(modelItem => item.AppUser.Preferences)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
-                    </td>*@
-                <td class="well">
-                    @Html.ActionLink("Edit", "Edit", "DietPlan", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Details", "Details", "DietPlan", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Delete", "Delete", "DietPlan", new { id = item.Id }, new { })
+                @Html.DisplayFor(modelItem => item.AppUser.Preferences)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
+            </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "DietPlan", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Details", "Details", "DietPlan", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Delete", "Delete", "DietPlan", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }
 
     </table>
-</center>
+</div>

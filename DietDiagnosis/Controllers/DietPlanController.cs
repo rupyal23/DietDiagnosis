@@ -554,18 +554,31 @@ namespace DietDiagnosis.Controllers
                 var recipeLabel = json[0]["label"].ToString();
                 var recipeIngredients = json[0]["ingredientLines"].ToList();
                 var recipeCal = json[0]["calories"].ToObject<double>();
+                var recipeURL = json[0]["url"].ToString();
+                var cookTime = json[0]["totalTime"].ToObject<int>();
+                var source = json[0]["source"].ToString();
                 //var recipeNutrients = json[0]["totalNutrients"].ToList();
+                try
+                {
+                    //dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["ENERC_KCAL"]["label"].ToString(), json[0]["totalNutrients"]["ENERC_KCAL"]["quantity"].ToObject<double>()));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FAT"]["label"].ToString(), json[0]["totalNutrients"]["FAT"]["quantity"].ToObject<double>()));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["CHOCDF"]["label"].ToString(), json[0]["totalNutrients"]["CHOCDF"]["quantity"].ToObject<double>()));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["PROCNT"]["label"].ToString(), json[0]["totalNutrients"]["PROCNT"]["quantity"].ToObject<double>()));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["SUGAR"]["label"].ToString(), json[0]["totalNutrients"]["SUGAR"]["quantity"].ToObject<double>()));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FIBTG"]["label"].ToString(), json[0]["totalNutrients"]["FIBTG"]["quantity"].ToObject<double>()));
+                    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+                }
+                catch
+                {
+                    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+                }
                 
-                dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["ENERC_KCAL"]["label"].ToString(), json[0]["totalNutrients"]["ENERC_KCAL"]["quantity"].ToObject<double>()));
-                dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FAT"]["label"].ToString(), json[0]["totalNutrients"]["FAT"]["quantity"].ToObject<double>()));
-                dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["CHOCDF"]["label"].ToString(), json[0]["totalNutrients"]["CHOCDF"]["quantity"].ToObject<double>()));
-                dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["PROCNT"]["label"].ToString(), json[0]["totalNutrients"]["PROCNT"]["quantity"].ToObject<double>()));
-                dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FIBTG"]["label"].ToString(), json[0]["totalNutrients"]["FIBTG"]["quantity"].ToObject<double>()));
-                dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["SUGAR"]["label"].ToString(), json[0]["totalNutrients"]["SUGAR"]["quantity"].ToObject<double>()));
-                ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
                 ViewBag.RecipeLabel = recipeLabel;
                 ViewBag.RecipeCalories = recipeCal;
                 ViewBag.RecipeIngr = recipeIngredients;
+                ViewBag.RecipeURL = recipeURL;
+                ViewBag.RecipeTime = cookTime;
+                ViewBag.RecipeSource = source;
             }
             return View("ViewRecipe");
         }

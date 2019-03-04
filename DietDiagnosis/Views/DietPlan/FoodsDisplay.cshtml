@@ -3,10 +3,23 @@
     ViewBag.Title = "FoodsDisplay";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
+<style>
+    #foods th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        width: auto;
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:hover {
+        background-color: #9d4747;
+    }
+</style>
+<div class="well well-lg"><h2>LIST OF FOODS</h2></div>
 
-<h2>LIST OF FOODS</h2>
 
-<table class="table">
+<table class="table table-hover table-striped" id="foods">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -30,7 +43,7 @@
                     @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
                 </td>*@
             <td>
-                @Html.ActionLink("Details", "GetNutrientsInfo", "DietPlan", new { id = item.Id }, "")
+                @Html.ActionLink("Details", "GetNutrientsInfo", "DietPlan", new { id = item.Id }, new { @class = "btn btn-info"})
             </td>
         </tr>
     }

@@ -12,6 +12,17 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
+<style>
+    div.polaroid {
+        width: 300px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        text-align: center;
+        padding: 10px;
+    }
+        div.polaroid:hover {
+            box-shadow: 0 5px 15px 2px rgba(0, 0, 0, 0.2), 0 10px 30px 15px rgba(0, 0, 0, 0.19);
+        }
+</style>
 <div class="container">
 	<div class="col-md-6">
 		<div class="well well-sm">
@@ -35,9 +46,10 @@
 
             <div class="col-md-6">
                 @*<p>Meal @(i + 1)</p>*@
-                <h3>@Html.DisplayFor(model => model.Meals[i].Name)</h3>
-                <div>
-                    <img src="@Model.Meals[i].Image" />
+               
+                <div class="polaroid">
+                    <img src="@Model.Meals[i].Image" class="img-thumbnail" />
+                    <h3>@Html.DisplayFor(model => model.Meals[i].Name)</h3>
                     <div style="margin-top:10px;">
                         @Html.ActionLink("Recipe Info", "GetRecipeDetails", "DietPlan", new { inputUri = Model.Meals[i].Uri }, new { @class = "btn btn-primary" })
                     </div>
