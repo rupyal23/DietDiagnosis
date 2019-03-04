@@ -554,6 +554,7 @@ namespace DietDiagnosis.Controllers
                 var recipeLabel = json[0]["label"].ToString();
                 var recipeIngredients = json[0]["ingredientLines"].ToList();
                 var recipeCal = json[0]["calories"].ToObject<double>();
+                recipeCal = Math.Round(recipeCal, 2);
                 var recipeURL = json[0]["url"].ToString();
                 var cookTime = json[0]["totalTime"].ToObject<int>();
                 var source = json[0]["source"].ToString();

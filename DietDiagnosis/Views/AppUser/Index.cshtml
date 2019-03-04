@@ -4,10 +4,17 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
+
+
+<style>
+    body {
+        background-color: #dae2e0;
+    }
+</style>
 <div class="container">
     <center>
-        <div class="jumbotron">
-            <h3> Your Diet Plans</h3>
+        <div class="well">
+            <h2>Diet Plans</h2>
         </div>
     </center>
 </div>
@@ -22,12 +29,12 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             @*<th>
-            @Html.DisplayNameFor(model => model.AppUser.Preferences)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AppUser.Exclusions)
-        </th>*@
-           
+                    @Html.DisplayNameFor(model => model.AppUser.Preferences)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AppUser.Exclusions)
+                </th>*@
+
         </tr>
 
         @foreach (var item in Model)
@@ -37,11 +44,11 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 @*<td>
-                @Html.DisplayFor(modelItem => item.AppUser.Preferences)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
-            </td>*@
+                        @Html.DisplayFor(modelItem => item.AppUser.Preferences)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppUser.Exclusions)
+                    </td>*@
                 <td>
                     @Html.ActionLink("Edit", "Edit", "DietPlan", new { id = item.Id }, new { @class = "btn btn-info" }) |
                     @Html.ActionLink("Details", "Details", "DietPlan", new { id = item.Id }, new { @class = "btn btn-primary" }) |

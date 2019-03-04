@@ -3,24 +3,43 @@
     ViewBag.Title = "ViewRecipe";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
+<style>
+    body {
+        background-color: #dae2e0;
+    }
+    .well {
+        background-color: #a9cc82;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="well">
+            <h2 style="letter-spacing: 4px;">Recipe Info</h2>
+        </div>
+    </div>
+</div>
 
-<h2>Recipe</h2>
 <div class="container">
     <div class="col-md-6">
-        <div class="well">
-            @Html.Raw(ViewBag.RecipeLabel)
-        </div>
-        <p>
-            <h4>Total Calories : </h4>
-            @Html.Raw(ViewBag.RecipeCalories)
-        </p>
-        @if (ViewBag.RecipeTime != 0)
-        {
+        <div class="jumbotron">
+            <h2>@Html.Raw(ViewBag.RecipeLabel)</h2>
             <p>
-                <h4>Total Cooking Time : </h4>
-                @Html.Raw(ViewBag.RecipeTime) min
+                <h4>
+                    Total Calories :
+                    @Html.Raw(ViewBag.RecipeCalories)
+                </h4>
             </p>
-        }
+
+            @if (ViewBag.RecipeTime != 0 && ViewBag.RecipeTime < 400)
+            {
+                <p>
+                    <h4>
+                        Total Cooking Time :
+                        @Html.Raw(ViewBag.RecipeTime) min
+                    </h4>
+                </p>
+            }
+        </div>
         <div class="jumbotron">
             <h4>Ingredients</h4>
             @foreach (var item in ViewBag.RecipeIngr)
@@ -43,7 +62,8 @@
 <script>
     window.onload = function () {
 
-    var chart = new CanvasJS.Chart("chartContainer", {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            backgroundColor: "#DAE2E0",
 	    exportEnabled: true,
 	    animationEnabled: true,
 	    theme: "light2",

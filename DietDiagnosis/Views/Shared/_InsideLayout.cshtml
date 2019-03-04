@@ -3,6 +3,7 @@
     .sidenav {
         height: 100%;
         width: 160px;
+        margin-top: 60px;
         position: fixed;
         z-index: 1;
         top: 0;
@@ -41,46 +42,37 @@
 </head>
 
 <body>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Diet Diagnosis", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
+            
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+                
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>*@
+    </div>
     <div id="mySidenav" class="sidenav">
-        @using (Html.BeginForm("GetFoods", "DietPlan", FormMethod.Post))
-        {
-
-            <div class="form-group">
-                <input style="width:90%; padding-left:10px; margin-left:5px" type="text" placeholder="Search Foods..." name="input" id="input" />
-
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-1 col-md-10">
-                    <input type="submit" value="Submit" style="width:100%" class="btn btn-sm" formaction="@Url.Action("GetFoods", "DietPlan")" formmethod="post" />
+        <center><img src="~/Content/images/DD_logo_hex.png" /></center>
+        <div>
+            @using (Html.BeginForm("GetFoods", "DietPlan", FormMethod.Post))
+            {
+                <div style="padding-top:20px;" class="form-group">
+                    <input style="width:90%; padding-left:10px; margin-left:5px" type="text" placeholder="Search Foods..." name="input" id="input" />
 
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                        <input type="submit" value="Submit" style="width:100%" class="btn btn-sm" formaction="@Url.Action("GetFoods", "DietPlan")" formmethod="post" />
 
-        }
-        @Html.ActionLink("Home", "Index", "AppUser")
-        @Html.ActionLink("Settings", "Index", "AppUser")
-        @Html.ActionLink("Contact", "Index", "AppUser")
-
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            @Html.ActionLink("Home", "Index", "AppUser")
+            @Html.ActionLink("Settings", "Settings", "DietPlan")
+            @Html.ActionLink("Contact", "Index", "AppUser")
+        </div>
     </div>
     <div class="container body-content">
         @RenderBody()

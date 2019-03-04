@@ -3,21 +3,27 @@
     ViewBag.Title = "NutritionalInfo";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
+<style>
+    body {
+        background-color: #dae2e0;
+    }
+</style>
 <div class="well">
     <h2>Nutritional Information</h2>
     <p>@Model.Name</p>
 </div>
-    <div id="chartContainer"></div>
+    <div style="background-color:#ECF0F1" id="chartContainer"></div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script>
     window.onload = function () {
 
-    var chart = new CanvasJS.Chart("chartContainer", {
+        var chart = new CanvasJS.Chart("chartContainer", {
+        backgroundColor: "#ECF0F1",
 	    exportEnabled: true,
 	    animationEnabled: true,
 	    theme: "light2",
 	    title: {
-		    text: "Nutritional Info"
+		    text: "Nutrition Breakdown"
 	    },
 	    legend: {
 		    cursor: "pointer",

@@ -4,7 +4,11 @@
     ViewBag.Title = "Settings";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
-
+<style>
+    body {
+        background-color: #dae2e0;
+    }
+</style>
 <h2>Set up the Diet Profile</h2>
 
 
@@ -40,12 +44,12 @@
                 @Html.DropDownListFor(model => model.Nutrients, new SelectList(Model.Nutrients, "Name", "Name"), "Select Nutrient", new { htmlAttributes = new { @class = "form-control" }, name = "myDropDown", id = "myDropDown" })
                 
                 <i>Not Less Than</i>
-                @Html.TextBoxFor(model => model.SelectedNutrient.Min, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt" })
-                (mg).
+                @Html.TextBoxFor(model => model.SelectedNutrient.Min, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt", placeholder = "mg" })
+                
                 @*@Html.ValidationMessageFor(model => model.SelectedNutrient.Value, "", new { @class = "text-danger" })*@
-                <i>Not More Than</i>
-                @Html.TextBoxFor(model => model.SelectedNutrient.Max, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt" })
-                (mg)
+                <span><i>Not More Than</i></span>
+                @Html.TextBoxFor(model => model.SelectedNutrient.Max, new { htmlAttributes = new { @class = "form - control" }, type = "text", name = "txt", id = "txt", placeholder = "mg" })
+                
                 @*@Html.ValidationMessageFor(model => model.SelectedNutrient.Value, "", new { @class = "text-danger" })*@
 
             </div>
