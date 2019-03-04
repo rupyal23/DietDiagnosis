@@ -324,6 +324,10 @@
     <Compile Include="Migrations\201903031849000_AddedDietFK.Designer.cs">
       <DependentUpon>201903031849000_AddedDietFK.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903032029294_AddedURIpropInRecipe.cs" />
+    <Compile Include="Migrations\201903032029294_AddedURIpropInRecipe.Designer.cs">
+      <DependentUpon>201903032029294_AddedURIpropInRecipe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -411,6 +415,7 @@
     <Content Include="Views\DietPlan\FoodsDisplay.cshtml" />
     <Content Include="Views\DietPlan\Edit.cshtml" />
     <Content Include="Views\DietPlan\NutritionalInfo.cshtml" />
+    <Content Include="Views\DietPlan\ViewRecipe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -525,6 +530,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903031849000_AddedDietFK.resx">
       <DependentUpon>201903031849000_AddedDietFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903032029294_AddedURIpropInRecipe.resx">
+      <DependentUpon>201903032029294_AddedURIpropInRecipe.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -28,91 +28,115 @@
 	</div>
 </div>
 <div class="jumbotron">
-	<div class="row">
+    <div class="row">
 
-		@for (int i = 0; i < Model.DietPlan.NumberOfMeals; i++)
-		{
+        @for (int i = 0; i < Model.DietPlan.NumberOfMeals; i++)
+        {
 
-		<div class="col-md-6">
-			@*<p>Meal @(i + 1)</p>*@
-			<h3>@Html.DisplayFor(model => model.Meals[i].Name)</h3>
-			<p><img src="@Model.Meals[i].Image" /></p>
-
-			<p>Recipe</p>
-			<!-- Trigger the modal with a button -->
-			<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Show</button>
-			<p>Nutrient Info</p>
-			<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myNutrient">Show</button>
-			<!-- Modal -->
-			<div class="modal fade" id="myModal" role="dialog">
-				<div class="modal-dialog">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Recipe @Model.Meals[i].Name</h4>
-						</div>
-						<div class="modal-body">
-							<!-- Put All Recipe Content in here-->
-							<p>All Recipe Content.</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal fade" id="myNutrient" role="dialog">
-				<div class="modal-dialog">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Recipe @Model.Meals[i].Name</h4>
-						</div>
-						<div class="modal-body" style="height:500px; width:auto">
-							<!-- Put All Recipe Content in here-->
-							<p id="chartContainer">All Recipe Content.</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		   
-		}
-	</div>
+            <div class="col-md-6">
+                @*<p>Meal @(i + 1)</p>*@
+                <h3>@Html.DisplayFor(model => model.Meals[i].Name)</h3>
+                <div>
+                    <img src="@Model.Meals[i].Image" />
+                    <div style="margin-top:10px;">
+                        @Html.ActionLink("Recipe Info", "GetRecipeDetails", "DietPlan", new { inputUri = Model.Meals[i].Uri }, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+            </div>
+        }
+           
+    </div>
 </div>
 
-<script type="text/javascript">
 
-	window.onload = function () {
-		var chart = new CanvasJS.Chart("chartContainer", {
-			theme: "light2",
-			animationEnabled: true,
-			title: {
-				text: "Total Nutrients"
-			},
-			subtitles: [
-				{ text: "Pie Chart" }
-			],
-			data: [
-				{
-					indexLabelPlacement: "outside",
-					type: "pie", //change type to bar, line, area, pie, etc
-					dataPoints: [
-						{ name: "Fat", y: 86.75, indexLabel: "Fat" },
-						{ x: 20, y: 13.41, indexLabel: "Fat" },
-						{ x: 30, y: 60.52, indexLabel: "Fat" },
-						{ x: 40, y: 9.44, indexLabel: "Fat" },
-						{ x: 50, y: 351.79, indexLabel: "Carbs" }
-					]
-				}
-				]
-		});
-		chart.render();
-	};
-</script>
+        <!-- Modal -->
+        @*<div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Recipe @Model.Meals[i].Name</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Put All Recipe Content in here-->
+                            <p>All Recipe Content.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        @*<div class="modal fade" id="myNutrient" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Recipe @Model.Meals[i].Name</h4>
+                            </div>
+                            <div class="modal-body" style="height:500px; width:auto">
+                                <!-- Put All Recipe Content in here-->
+                                <p id="chartContainer">All Recipe Content.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+
+
+        @*<script type="text/javascript">
+
+                $(function () {
+                    $('#GetData').click function() {
+                        $.ajax({
+                            url: '@Url.Action("GetRecipeDetails", "DietPlan")',
+                            type: 'POST',
+                            dataType: 'ViewData',
+                            contentType: 'application/json; charset=utf-8',
+                            data: [
+                                {
+                                    indexLabelPlacement: "outside",
+                                    type: "pie", //change type to bar, line, area, pie, etc
+                                    dataPoints: @Html.Raw(ViewBag.DataPoints);
+                                }
+                            ]
+                        }).done(function (response) {
+                            //Populate chart data and show the modal
+                            console.log(response);
+                            PopulateData(response);
+                            $('#myNutrient').modal('show');
+
+                        }).fail(function (error) {
+                            console.log(error);
+                        });
+                        function PopulateData(data) {
+                            var ctx = document.getElementById("myChart").getContext('2d');
+                            var chart = new CanvasJS.Chart("chartContainer", {
+                                theme: "light2",
+                                animationEnabled: true,
+                                title: {
+                                    text: "Total Nutrients"
+                                },
+                                subtitles: [
+                                    { text: "Pie Chart" }
+                                ],
+                                data: [
+                                    {
+                                        indexLabelPlacement: "outside",
+                                        type: "pie", //change type to bar, line, area, pie, etc
+                                        dataPoints: @Html.Raw(ViewBag.DataPoints);
+                                    }
+                                ]
+                            });
+                            chart.render();
+
+                        }
+                    });
+            </script>*@
 

@@ -18,7 +18,7 @@ namespace DietDiagnosis.Models
 
         public string Image { get; set; }
 
-        
+        public string Uri { get; set; }
 
         [ForeignKey("DietPlan")]
         public int DietPlanId { get; set; }
