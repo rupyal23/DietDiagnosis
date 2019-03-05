@@ -143,15 +143,29 @@ namespace DietDiagnosis.Controllers
                 var dietPlan = RetrievePlan(user);
                 List<string> dietPreferences = new List<string>();
                 List<string> healthLabels = new List<string>();
-                var selectedNutrient = db.Nutrients.SingleOrDefault(c => c.Name == selectedNutrientName);
+                //Might wanna remove this below reset method
                 ResetNutrientValues();
-                selectedNutrient.Min = viewModel.SelectedNutrient.Min;
-                selectedNutrient.Max = viewModel.SelectedNutrient.Max;
-                dietPreferences.AddRange(viewModel.SelectedPreferences.ToList());
-                healthLabels.AddRange(viewModel.SelectedLabels.ToList());
+                if (viewModel.SelectedNutrient != null)
+                {
+                    var selectedNutrient = db.Nutrients.SingleOrDefault(c => c.Name == selectedNutrientName);
+                    selectedNutrient.Min = viewModel.SelectedNutrient.Min;
+                    selectedNutrient.Max = viewModel.SelectedNutrient.Max;
+                }
+
+                if (viewModel.DietPreferences != null)
+                {
+                    dietPreferences.AddRange(viewModel.SelectedPreferences.ToList());
+                }
+               
+                if(viewModel.HealthLabels != null)
+                {
+                    healthLabels.AddRange(viewModel.SelectedLabels.ToList());
+                }
+                
                 var preferencesInDb = db.DietPreferences.ToList();
                 TogglePreferences(dietPreferences);
                 ToggleHealthLabels(healthLabels);
+                
                 db.SaveChanges();
                 return RedirectToAction("Index", "AppUser");
             }
@@ -185,8 +199,8 @@ namespace DietDiagnosis.Controllers
                 var dietPlan = RetrievePlan(user);
                 List<string> dietPreferences = new List<string>();
                 List<string> healthLabels = new List<string>();
-                var selectedNutrient = db.Nutrients.SingleOrDefault(c => c.Name == selectedNutrientName);
                 ResetNutrientValues();
+                var selectedNutrient = db.Nutrients.SingleOrDefault(c => c.Name == selectedNutrientName);
                 selectedNutrient.Min = viewModel.SelectedNutrient.Min;
                 selectedNutrient.Max = viewModel.SelectedNutrient.Max;
                 dietPreferences.AddRange(viewModel.SelectedPreferences.ToList());
@@ -506,7 +520,7 @@ namespace DietDiagnosis.Controllers
             var foodFromDb = db.Foods.Single(c => c.Id == id);
             for(int i = 0; i < nutrientList.Count; i++)
             {
-                if(nutrientList[i].Symbol != null && nutrientList[i].Symbol.ToUpper() == nutrientSelected.Symbol)
+                if((nutrientList[i].Symbol != null && nutrientList[i].Symbol.ToUpper() == nutrientSelected.Symbol) || nutrientList[i].Name.Contains(nutrientSelected.Name))
                 {
                     if (nutrientList[i].Value > nutrientSelected.Min && nutrientList[i].Value < nutrientSelected.Max)
                     {
@@ -670,12 +684,12 @@ namespace DietDiagnosis.Controllers
                 //var recipeNutrients = json[0]["totalNutrients"].ToList();
                 try
                 {
-                    //dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["ENERC_KCAL"]["label"].ToString(), json[0]["totalNutrients"]["ENERC_KCAL"]["quantity"].ToObject<double>()));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FAT"]["label"].ToString(), json[0]["totalNutrients"]["FAT"]["quantity"].ToObject<double>(), "%"));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["CHOCDF"]["label"].ToString(), json[0]["totalNutrients"]["CHOCDF"]["quantity"].ToObject<double>(), "%"));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["PROCNT"]["label"].ToString(), json[0]["totalNutrients"]["PROCNT"]["quantity"].ToObject<double>(), "%"));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["SUGAR"]["label"].ToString(), json[0]["totalNutrients"]["SUGAR"]["quantity"].ToObject<double>(), "%"));
-                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FIBTG"]["label"].ToString(), json[0]["totalNutrients"]["FIBTG"]["quantity"].ToObject<double>(), "%"));
+                   // dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["ENERC_KCAL"]["label"].ToString(), json[0]["totalNutrients"]["ENERC_KCAL"]["quantity"].ToObject<double>(), "kcal"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FAT"]["label"].ToString(), json[0]["totalNutrients"]["FAT"]["quantity"].ToObject<double>(), "g"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["CHOCDF"]["label"].ToString(), json[0]["totalNutrients"]["CHOCDF"]["quantity"].ToObject<double>(), "g"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["PROCNT"]["label"].ToString(), json[0]["totalNutrients"]["PROCNT"]["quantity"].ToObject<double>(), "g"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["SUGAR"]["label"].ToString(), json[0]["totalNutrients"]["SUGAR"]["quantity"].ToObject<double>(), "g"));
+                    dataPoints.Add(new DataPoint(json[0]["totalNutrients"]["FIBTG"]["label"].ToString(), json[0]["totalNutrients"]["FIBTG"]["quantity"].ToObject<double>(), "g"));
                     ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
                 }
                 catch
