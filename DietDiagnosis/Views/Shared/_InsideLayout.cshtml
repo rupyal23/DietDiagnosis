@@ -66,12 +66,22 @@
 
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                       @Html.ActionLink("Home", "Index", "AppUser","", new { @class = "btn btn-sm", @style = "width:100%; margin-top:10px;"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                        @Html.ActionLink("Settings", "Update", "DietPlan", "", new { @class = "btn btn-sm", @style = "width:100%; margin-top:10px;" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                        @Html.ActionLink("Contact", "Index", "AppUser", "", new { @class = "btn btn-sm", @style = "width:100%; margin-top:10px;" })
+                    </div>
+                </div>
             }
-        </div>
-        <div class="row">
-            @Html.ActionLink("Home", "Index", "AppUser")
-            @Html.ActionLink("Settings", "Update", "DietPlan")
-            @Html.ActionLink("Contact", "Index", "AppUser")
         </div>
     </div>
     <div class="container body-content">
