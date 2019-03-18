@@ -48,16 +48,17 @@
 
 		@for (int i = 0; i < Model.DietPlan.NumberOfMeals; i++)
 		{
-			<div class="col-md-6">
-				<div class="polaroid">
-					<img src="@Model.Meals[i].Image" class="img-thumbnail" />
-					<h3>@Html.DisplayFor(model => model.Meals[i].Name)</h3>
-					<div style="margin-top:10px;">
-						@Html.ActionLink("Recipe Info", "GetRecipeDetails", "DietPlan", new { inputUri = Model.Meals[i].Uri }, new { @class = "btn btn-primary" })
-					</div>
-				</div>
-			</div>
-		
+        
+            <div class="col-md-6">
+                <div class="polaroid">
+                    <img src="@Model.Meals[i].Image" class="img-thumbnail" />
+                    <h3>@Html.DisplayFor(model => model.Meals[i].Name)</h3>
+                    <div style="margin-top:10px;">
+                        @Html.ActionLink("Recipe Info", "GetRecipeDetails", "DietPlan", new { inputUri = Model.Meals[i].Uri }, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+            </div>
+        
 		}
 		   
 	</div>
@@ -83,13 +84,13 @@
 					</div>
 				</div>
 			</div>*@
-		@*<div class="modal fade" id="myNutrient" role="dialog">
+		<div class="modal fade" id="myNutrient" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">Recipe @Model.Meals[i].Name</h4>
+								<h4 class="modal-title">Recipe</h4>
 							</div>
 							<div class="modal-body" style="height:500px; width:auto">
 								<!-- Put All Recipe Content in here-->
@@ -101,7 +102,7 @@
 						</div>
 					</div>
 				</div>
-			</div>*@
+			</div>
 
 
 

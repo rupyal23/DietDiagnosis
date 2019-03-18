@@ -522,7 +522,7 @@ namespace DietDiagnosis.Controllers
             {
                 if((nutrientList[i].Symbol != null && nutrientList[i].Symbol.ToUpper() == nutrientSelected.Symbol) || nutrientList[i].Name.Contains(nutrientSelected.Name))
                 {
-                    if (nutrientList[i].Value > nutrientSelected.Min && nutrientList[i].Value < nutrientSelected.Max)
+                    if (nutrientList[i].Value >= nutrientSelected.Min && nutrientList[i].Value <= nutrientSelected.Max)
                     {
                         //good
                         TempData["message"] = "Suitable Food item as per your Current Diet Restrictions";
@@ -696,7 +696,8 @@ namespace DietDiagnosis.Controllers
                 {
                     ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
                 }
-                
+                if (recipeCal > 1600)
+                    recipeCal = recipeCal / 10;
                 ViewBag.RecipeLabel = recipeLabel;
                 ViewBag.RecipeCalories = recipeCal;
                 ViewBag.RecipeIngr = recipeIngredients;
